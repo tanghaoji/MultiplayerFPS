@@ -28,10 +28,17 @@ public class RoomMan : Photon.MonoBehaviour {
         spawnPlayer();
     }
 
+    /**
+     * Creates a player 
+     */
     public void spawnPlayer()
     {
         GameObject pl = PhotonNetwork.Instantiate(playerPref.name, spawnPoint.position, spawnPoint.rotation, 0) as GameObject;
+
+        // Enable the player script
         pl.GetComponent<RigidbodyFPSController>().enabled = true;
+
+        // Enable the camera of the player
         pl.GetComponent<RigidbodyFPSController>().fpsCam.SetActive(true);
     }
 

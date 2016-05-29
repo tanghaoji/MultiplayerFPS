@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -8,14 +9,16 @@ public class RigidbodyFPSController : MonoBehaviour
 {
 
     public float speed = 10.0f;
-    public float gravity = 10.0f;
+    public float gravity = 9.8f;
     public float maxVelocityChange = 10.0f;
     public bool canJump = true;
     public float jumpHeight = 2.0f;
     private bool grounded = false;
 
-    public GameObject fpsCam;
+    public int health = 100;
 
+    public GameObject fpsCam;
+    public GameObject me;
 
     void Awake()
     {
@@ -51,6 +54,11 @@ public class RigidbodyFPSController : MonoBehaviour
         GetComponent<Rigidbody>().AddForce(new Vector3(0, -gravity * GetComponent<Rigidbody>().mass, 0));
 
         grounded = false;
+
+        if (health <= 0)
+        {
+            GetComponent<PhotonView>().RPC("die", PhotonTargets.AllBuffered, null);
+        }
     }
 
     void OnCollisionStay()
@@ -64,4 +72,24 @@ public class RigidbodyFPSController : MonoBehaviour
         // for the character to reach at the apex.
         return Mathf.Sqrt(2 * jumpHeight * gravity);
     }
+
+    void OnGUI()
+    {
+        GUI.Box(new Rect(10, 10, 100, 30), "HP | " + health);
+    }
+
+    [PunRPC]
+    public void applyDamage(int dmg)
+    {
+        health -= dmg;
+    }
+
+    [PunRPC]
+    public void die()
+    {
+        PhotonNetwork.Destroy(me);
+        PhotonNetwork.Disconnect();
+        SceneManager.LoadScene(0);
+    }
+
 }
