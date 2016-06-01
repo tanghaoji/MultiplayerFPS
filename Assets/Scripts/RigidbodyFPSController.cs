@@ -5,6 +5,9 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 
+/**
+ * This class contains player movement and health logic
+ **/
 public class RigidbodyFPSController : MonoBehaviour
 {
 

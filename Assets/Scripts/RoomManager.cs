@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RoomMan : Photon.MonoBehaviour {
+/**
+ * This class connects to the mp server and creates the main player
+ **/
+public class RoomManager : Photon.MonoBehaviour {
 
     // if you change this version number, people with old versions cannot play until update
     public string verNum = "0.1";

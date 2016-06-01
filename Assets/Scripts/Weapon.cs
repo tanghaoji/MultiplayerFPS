@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * This class contains weapon logic and weapon animations
+ **/
 public class Weapon : MonoBehaviour {
 
     public Camera fpsCam;
@@ -9,9 +12,14 @@ public class Weapon : MonoBehaviour {
     // Gun animation
     public Animation gun;
     public AnimationClip shoot;
+    public AnimationClip reload;
 
     public int damage = 30;
     public int range = 10000;
+    public int ammo = 17;
+    public int clipSize = 17;
+    // TODO: decide if we want limited ammos
+    public int ammoAvailable = 1000;
 
     void Update()
     {
@@ -20,14 +28,21 @@ public class Weapon : MonoBehaviour {
         {
             fireShot();
         }
+
+        // Keyboard R
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            reloadAmmo();
+        }
     }
 
     public void fireShot()
     {
-        // Don't shoot bullets while the gun is animating
-        if (gun.IsPlaying(shoot.name)) return;
+        // Don't shoot bullets while the gun is animating or there's no ammo
+        if (gun.IsPlaying(shoot.name) || gun.IsPlaying(reload.name)  || ammo <= 0) return;
 
         gun.CrossFade(shoot.name);
+        ammo--;
 
         RaycastHit hit;
         Ray ray = fpsCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
@@ -47,4 +62,18 @@ public class Weapon : MonoBehaviour {
             }
         }
     }
+
+    public void reloadAmmo()
+    {
+        if (ammoAvailable <= 0) return;
+        gun.CrossFade(reload.name);
+        ammo = clipSize;
+        ammoAvailable -= clipSize;
+    }
+
+    void OnGUI()
+    {
+        GUI.Box(new Rect(120, 10, 120, 30), "Ammo | " + ammo + "/" + ammoAvailable);
+    }
+
 }
