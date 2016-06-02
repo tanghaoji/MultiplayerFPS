@@ -2,14 +2,26 @@
 using System.Collections;
 
 /**
- * This class renders the player animations
- **/
+ * This class renders the player animations locally and to network
+ */
 public class AnimationManager : MonoBehaviour {
 
-    // The object that is animating
-    public Animation animationObject;
-    public AnimationClip walk;
-    public AnimationClip idle;
+    // TODO: get rid of this flag
+    public bool isTp = false;
+    
+    // Client First Person Animation
+    public Animation fpAnimation;
+    public AnimationClip fpWalk;
+    public AnimationClip fpIdle;
+
+    // Network Third Person Animation
+    public PhotonView photonView;
+    public Animation tpAnimation;
+    public AnimationClip tpIdle;
+    public AnimationClip tpRun;
+    public AnimationClip tpShoot;
+    public AnimationClip tpRunShoot;
+    public AnimationClip tpReload;
 
     // This is the player that is tracking
     public Rigidbody rigidBody;
@@ -19,21 +31,56 @@ public class AnimationManager : MonoBehaviour {
         // if the player is walking, play the walk animation
         if (rigidBody.velocity.magnitude >= 0.1)
         {
-            playAnimation(walk.name);
+            playFpAnimation(fpWalk);
+            playTpAnimation(tpRun);
         } else
         {
-            playAnimation(idle.name);
+            playFpAnimation(fpIdle);
+
+            // so that it will not conflict with reload
+            if (isTp && !tpAnimation.IsPlaying(tpReload.name))
+            {
+                playTpAnimation(tpIdle);
+            }
+            
         }
     }
 
-    public void playAnimation(string animationName)
+    // TODO: refactor this method
+    public void reloadAmmo()
     {
-        animationObject.CrossFade(animationName);
+        playTpAnimation(tpReload);
+    }
+
+    // renders First Person animation on local
+    private void playFpAnimation(AnimationClip animationClip)
+    {
+        if (isTp) return;
+        fpAnimation.CrossFade(animationClip.name);
+    }
+
+    // renders Third Person animation to network
+    private void playTpAnimation(AnimationClip animationClip)
+    {
+        if (!isTp) return;
+        photonView.RPC("playAnimationPV", PhotonTargets.All, animationClip.name);
     }
 
     public void stopAnimation()
     {
-        animationObject.Stop();
+        if (isTp)
+        {
+            tpAnimation.Stop();
+        } else
+        {
+            fpAnimation.Stop();
+        }
+    }
+
+    [PunRPC]
+    public void playAnimationPV(string animationName)
+    {
+        tpAnimation.CrossFade(animationName);
     }
 
 }

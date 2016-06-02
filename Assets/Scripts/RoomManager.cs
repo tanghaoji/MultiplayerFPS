@@ -3,7 +3,7 @@ using System.Collections;
 
 /**
  * This class connects to the mp server and creates the main player
- **/
+ */
 public class RoomManager : Photon.MonoBehaviour {
 
     // if you change this version number, people with old versions cannot play until update
@@ -43,6 +43,9 @@ public class RoomManager : Photon.MonoBehaviour {
 
         // Enable the camera of the player
         pl.GetComponent<RigidbodyFPSController>().fpsCam.SetActive(true);
+
+        // Disable the graphic of the player on local
+        pl.GetComponent<RigidbodyFPSController>().graphics.SetActive(false);
     }
 
 }

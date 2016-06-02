@@ -3,17 +3,19 @@ using System.Collections;
 
 /**
  * This class contains weapon logic and weapon animations
- **/
+ */
 public class Weapon : MonoBehaviour {
 
     public Camera fpsCam;
     public GameObject bullet;
+    public AnimationManager tpAnimationManager;
 
     // Gun animation
     public Animation gun;
     public AnimationClip shoot;
     public AnimationClip reload;
 
+    public float recoilPower = 30;
     public int damage = 30;
     public int range = 10000;
     public int ammo = 17;
@@ -39,10 +41,13 @@ public class Weapon : MonoBehaviour {
     public void fireShot()
     {
         // Don't shoot bullets while the gun is animating or there's no ammo
-        if (gun.IsPlaying(shoot.name) || gun.IsPlaying(reload.name)  || ammo <= 0) return;
+        if (gun.isPlaying || ammo <= 0) return;
 
         gun.CrossFade(shoot.name);
         ammo--;
+
+        // Recoil
+        fpsCam.transform.Rotate(Vector3.right, -recoilPower * Time.deltaTime);
 
         RaycastHit hit;
         Ray ray = fpsCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
@@ -66,7 +71,11 @@ public class Weapon : MonoBehaviour {
     public void reloadAmmo()
     {
         if (ammoAvailable <= 0) return;
+
+        // render animation on local and network
         gun.CrossFade(reload.name);
+        tpAnimationManager.reloadAmmo();
+
         ammo = clipSize;
         ammoAvailable -= clipSize;
     }

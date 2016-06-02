@@ -7,7 +7,7 @@ using System.Collections;
 
 /**
  * This class contains player movement and health logic
- **/
+ */
 public class RigidbodyFPSController : MonoBehaviour
 {
 
@@ -22,6 +22,7 @@ public class RigidbodyFPSController : MonoBehaviour
 
     public GameObject fpsCam;
     public GameObject me;
+    public GameObject graphics;
 
     void Awake()
     {

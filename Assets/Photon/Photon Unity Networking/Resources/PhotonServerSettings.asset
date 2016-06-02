@@ -32,4 +32,5 @@ MonoBehaviour:
   - RequestForPickupTimes
   - applyDamage
   - die
+  - playAnimationPV
   DisableAutoOpenWizard: 1
