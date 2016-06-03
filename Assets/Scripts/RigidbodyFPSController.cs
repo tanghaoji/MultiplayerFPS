@@ -18,16 +18,21 @@ public class RigidbodyFPSController : MonoBehaviour
     public float jumpHeight = 2.0f;
     private bool grounded = false;
 
-    public int health = 100;
+    public int health;
+    public int maxHealth = 100;
 
     public GameObject fpsCam;
     public GameObject me;
     public GameObject graphics;
+    public PhotonView playerStatusReceiver;
 
     void Awake()
     {
         GetComponent<Rigidbody>().freezeRotation = true;
         GetComponent<Rigidbody>().useGravity = false;
+        health = maxHealth;
+        playerStatusReceiver.RPC("updateName", PhotonTargets.AllBuffered, PhotonNetwork.playerName);
+        playerStatusReceiver.RPC("updateHP", PhotonTargets.AllBuffered, health, maxHealth);
     }
 
     void FixedUpdate()
@@ -79,13 +84,14 @@ public class RigidbodyFPSController : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Box(new Rect(10, 10, 100, 30), "HP | " + health);
+        GUI.Box(new Rect(10, 10, 100, 30), "HP | " + health + "/" + maxHealth);
     }
 
     [PunRPC]
     public void applyDamage(int dmg)
     {
         health -= dmg;
+        playerStatusReceiver.RPC("updateHP", PhotonTargets.AllBuffered, health, maxHealth);
     }
 
     [PunRPC]

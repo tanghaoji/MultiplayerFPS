@@ -33,4 +33,6 @@ MonoBehaviour:
   - applyDamage
   - die
   - playAnimationPV
+  - updateName
+  - updateHP
   DisableAutoOpenWizard: 1

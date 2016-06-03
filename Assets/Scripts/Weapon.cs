@@ -16,7 +16,7 @@ public class Weapon : MonoBehaviour {
     public AnimationClip reload;
 
     public float recoilPower = 30;
-    public int damage = 30;
+    public int damage = 15;
     public int range = 10000;
     public int ammo = 17;
     public int clipSize = 17;

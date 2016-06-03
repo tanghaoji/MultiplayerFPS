@@ -8,26 +8,32 @@ public class RoomManager : Photon.MonoBehaviour {
 
     // if you change this version number, people with old versions cannot play until update
     public string verNum = "0.1";
-    public string roomName = "room01";
+    
     public Transform spawnPoint;
     public GameObject playerPref;
-    public bool isConnected = false;
+
+    public string roomName;
+    public string playerName;
+    public bool isIdle = false;
 
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings(verNum);
+        roomName = "Room " + Random.Range(0, 999);
+        playerName = "Player " + Random.Range(0, 20);
         Debug.Log("Starting Connection");
     }
 
     public void OnJoinedLobby()
     {
-        PhotonNetwork.JoinOrCreateRoom(roomName, null, null);
+        isIdle = true;
         Debug.Log("Starting Server!");
     }
 
     public void OnJoinedRoom()
     {
-        isConnected = true;
+        PhotonNetwork.playerName = playerName;
+        isIdle = false;
         spawnPlayer();
     }
 
@@ -46,6 +52,32 @@ public class RoomManager : Photon.MonoBehaviour {
 
         // Disable the graphic of the player on local
         pl.GetComponent<RigidbodyFPSController>().graphics.SetActive(false);
+    }
+
+    void OnGUI()
+    {
+        if (isIdle)
+        {
+            GUILayout.BeginArea(new Rect(Screen.width / 2 - 150, Screen.height / 2 - 150, 300, 300));
+
+            playerName = GUILayout.TextField(playerName);
+            roomName = GUILayout.TextField(roomName);
+            if (GUILayout.Button("Create"))
+            {
+                PhotonNetwork.JoinOrCreateRoom(roomName, null, null);
+            }
+
+            // Display a list of available rooms on the server
+            foreach (RoomInfo game in PhotonNetwork.GetRoomList())
+            {
+                if (GUILayout.Button(game.name + " " + game.playerCount + "/" + game.maxPlayers))
+                {
+                    PhotonNetwork.JoinOrCreateRoom(game.name, null, null);
+                }
+            }
+
+            GUILayout.EndArea();
+        }
     }
 
 }
