@@ -62,8 +62,12 @@ public class Weapon : MonoBehaviour {
 
             if (hit.transform.tag == "Player")
             {
-                hit.transform.GetComponent<PhotonView>().RPC("applyDamage", PhotonTargets.All, damage);
                 Debug.Log("hit target!");
+                hit.transform.GetComponent<PhotonView>().RPC("applyDamage", PhotonTargets.All, damage);
+
+                // Add score to the current player
+                PhotonNetwork.player.AddScore(1);
+                Debug.Log("Current player's score " + PhotonNetwork.player.GetScore());
             }
         }
     }
@@ -80,6 +84,9 @@ public class Weapon : MonoBehaviour {
         ammoAvailable -= clipSize;
     }
 
+    /*
+     * Renders the number of ammos left, and current player's score
+     */
     void OnGUI()
     {
         GUI.Box(new Rect(120, 10, 120, 30), "Ammo | " + ammo + "/" + ammoAvailable);

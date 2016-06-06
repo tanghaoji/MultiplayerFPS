@@ -82,9 +82,13 @@ public class RigidbodyFPSController : MonoBehaviour
         return Mathf.Sqrt(2 * jumpHeight * gravity);
     }
 
+    /*
+     * Renders current player's hp and score
+     */
     void OnGUI()
     {
         GUI.Box(new Rect(10, 10, 100, 30), "HP | " + health + "/" + maxHealth);
+        GUI.Box(new Rect(10, 45, 100, 30), "Score | " + PhotonNetwork.player.GetScore());
     }
 
     [PunRPC]
