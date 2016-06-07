@@ -9,7 +9,7 @@ public class RoomManager : Photon.MonoBehaviour {
     // if you change this version number, people with old versions cannot play until update
     public string verNum = "0.1";
     
-    public Transform spawnPoint;
+    public Transform[] spawnPoints;
     public GameObject playerPref;
 
     public string roomName;
@@ -38,11 +38,12 @@ public class RoomManager : Photon.MonoBehaviour {
     }
 
     /**
-     * Creates a player 
+     * Creates a player at a random spawn point
      */
     public void spawnPlayer()
     {
-        GameObject pl = PhotonNetwork.Instantiate(playerPref.name, spawnPoint.position, spawnPoint.rotation, 0) as GameObject;
+        Transform randomSpawnPt = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        GameObject pl = PhotonNetwork.Instantiate(playerPref.name, randomSpawnPt.position, randomSpawnPt.rotation, 0) as GameObject;
 
         // Enable the player script
         pl.GetComponent<RigidbodyFPSController>().enabled = true;
@@ -54,6 +55,9 @@ public class RoomManager : Photon.MonoBehaviour {
         pl.GetComponent<RigidbodyFPSController>().graphics.SetActive(false);
     }
 
+    /*
+     * Renders the lobby room and player create menu
+     */
     void OnGUI()
     {
         if (isIdle)

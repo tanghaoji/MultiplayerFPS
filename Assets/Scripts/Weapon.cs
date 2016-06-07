@@ -16,7 +16,8 @@ public class Weapon : MonoBehaviour {
     public AnimationClip reload;
 
     public float recoilPower = 30;
-    public int damage = 15;
+    public int damage = 10;
+    public int maxDamage = 30;
     public int range = 10000;
     public int ammo = 17;
     public int clipSize = 17;
@@ -43,7 +44,10 @@ public class Weapon : MonoBehaviour {
         // Don't shoot bullets while the gun is animating or there's no ammo
         if (gun.isPlaying || ammo <= 0) return;
 
+        // render animation on local and network
         gun.CrossFade(shoot.name);
+        tpAnimationManager.fireShot();
+
         ammo--;
 
         // Recoil
@@ -55,15 +59,21 @@ public class Weapon : MonoBehaviour {
         if (Physics.Raycast(ray, out hit, range))
         {
             // Shoot a bullet at the aiming point
-            GameObject par = PhotonNetwork.Instantiate(bullet.name, hit.point, hit.transform.rotation, 0) as GameObject;
+            GameObject par;
+            par = PhotonNetwork.Instantiate(bullet.name, hit.point, Quaternion.LookRotation(hit.normal), 0) as GameObject;
 
             // TODO: make it PhotonNetwork.Destroy
             Destroy(par, 0.2f);
+            // PhotonNetwork.Destroy(par);
 
             if (hit.transform.tag == "Player")
             {
-                hit.transform.GetComponent<PhotonView>().RPC("applyDamage", PhotonTargets.All, damage);
                 Debug.Log("hit target!");
+                hit.transform.GetComponent<PhotonView>().RPC("applyDamage", PhotonTargets.All, Random.Range(damage,maxDamage));
+
+                // Add score to the current player
+                PhotonNetwork.player.AddScore(1);
+                Debug.Log("Current player's score " + PhotonNetwork.player.GetScore());
             }
         }
     }
@@ -80,6 +90,9 @@ public class Weapon : MonoBehaviour {
         ammoAvailable -= clipSize;
     }
 
+    /*
+     * Renders the number of ammos left, and current player's score
+     */
     void OnGUI()
     {
         GUI.Box(new Rect(120, 10, 120, 30), "Ammo | " + ammo + "/" + ammoAvailable);

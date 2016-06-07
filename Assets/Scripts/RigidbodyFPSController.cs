@@ -26,6 +26,9 @@ public class RigidbodyFPSController : MonoBehaviour
     public GameObject graphics;
     public PhotonView playerStatusReceiver;
 
+    // TODO: put the score menu in a better place
+    public bool isPause = false;
+
     void Awake()
     {
         GetComponent<Rigidbody>().freezeRotation = true;
@@ -68,6 +71,16 @@ public class RigidbodyFPSController : MonoBehaviour
         {
             GetComponent<PhotonView>().RPC("die", PhotonTargets.AllBuffered, null);
         }
+
+        // Hold TAB will pause the game
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            isPause = true;
+        } 
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            isPause = false;
+        }
     }
 
     void OnCollisionStay()
@@ -82,9 +95,24 @@ public class RigidbodyFPSController : MonoBehaviour
         return Mathf.Sqrt(2 * jumpHeight * gravity);
     }
 
+    /*
+     * Renders current player's hp and score
+     */
     void OnGUI()
     {
         GUI.Box(new Rect(10, 10, 100, 30), "HP | " + health + "/" + maxHealth);
+        GUI.Box(new Rect(10, 45, 100, 30), "Score | " + PhotonNetwork.player.GetScore());
+
+        // Renders a score menu
+        if (isPause)
+        {
+            GUILayout.BeginArea(new Rect(Screen.width / 2 - 250, Screen.height / 2 - 250, 500, 500));
+            foreach (PhotonPlayer player in PhotonNetwork.playerList)
+            {
+                GUILayout.Box(player.name + " | " + player.GetScore());
+            }
+            GUILayout.EndArea();
+        }
     }
 
     [PunRPC]
