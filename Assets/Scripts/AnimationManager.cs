@@ -38,7 +38,8 @@ public class AnimationManager : MonoBehaviour {
             playFpAnimation(fpIdle);
 
             // so that it will not conflict with reload
-            if (isTp && !tpAnimation.IsPlaying(tpReload.name))
+            // TODO: put every animation into an array
+            if (isTp && !tpAnimation.IsPlaying(tpReload.name) && !tpAnimation.IsPlaying(tpRunShoot.name))
             {
                 playTpAnimation(tpIdle);
             }
@@ -50,6 +51,12 @@ public class AnimationManager : MonoBehaviour {
     public void reloadAmmo()
     {
         playTpAnimation(tpReload);
+    }
+
+    // TODO: refactor this method
+    public void fireShot()
+    {
+        playTpAnimation(tpRunShoot);
     }
 
     // renders First Person animation on local
