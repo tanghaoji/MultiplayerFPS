@@ -9,6 +9,10 @@ public class Weapon : MonoBehaviour {
     public Camera fpsCam;
     public GameObject bullet;
     public AnimationManager tpAnimationManager;
+    public PhotonView soundReceiver;
+
+    // the array of objects to disable when aiming
+    public GameObject[] partsToDisable;
 
     // Gun animation
     public Animation gun;
@@ -24,12 +28,28 @@ public class Weapon : MonoBehaviour {
     // TODO: decide if we want limited ammos
     public int ammoAvailable = 1000;
 
+    public bool canAim = false;
+    public float aimFOV = 20; // aim field of view
+    public float regFOV = 60; // regular field of view
+
     void Update()
     {
         // Mouse left click
         if (Input.GetMouseButton(0))
         {
             fireShot();
+        }
+
+        // Mouse right click down
+        if (Input.GetMouseButtonDown(1))
+        {
+            aim();
+        }
+
+        // Mouse right click up
+        if (Input.GetMouseButtonUp(1))
+        {
+            aimOut();
         }
 
         // Keyboard R
@@ -47,6 +67,9 @@ public class Weapon : MonoBehaviour {
         // render animation on local and network
         gun.CrossFade(shoot.name);
         tpAnimationManager.fireShot();
+
+        // play gun shoot sound
+        soundReceiver.RPC("playSound", PhotonTargets.AllBuffered, null);
 
         ammo--;
 
@@ -88,6 +111,32 @@ public class Weapon : MonoBehaviour {
 
         ammo = clipSize;
         ammoAvailable -= clipSize;
+    }
+
+    public void aim()
+    {
+        if (!canAim) return;
+        fpsCam.fieldOfView = aimFOV;
+
+        // hide the gun parts
+        setActive(false);
+    }
+
+    public void aimOut()
+    {
+        if (!canAim) return;
+        fpsCam.fieldOfView = regFOV;
+
+        // re-enable the hidden gun parts
+        setActive(true);
+    }
+
+    private void setActive(bool active)
+    {
+        foreach (GameObject part in partsToDisable)
+        {
+            part.SetActive(active);
+        }
     }
 
     /*

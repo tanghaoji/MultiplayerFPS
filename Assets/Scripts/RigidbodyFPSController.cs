@@ -26,6 +26,8 @@ public class RigidbodyFPSController : MonoBehaviour
     public GameObject graphics;
     public PhotonView playerStatusReceiver;
 
+    public AudioSource shootSound;
+
     // TODO: put the score menu in a better place
     public bool isPause = false;
 
@@ -128,6 +130,12 @@ public class RigidbodyFPSController : MonoBehaviour
         PhotonNetwork.Destroy(me);
         PhotonNetwork.Disconnect();
         SceneManager.LoadScene(0);
+    }
+
+    [PunRPC]
+    public void playSound()
+    {
+        shootSound.Play();
     }
 
 }
