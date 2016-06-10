@@ -8,6 +8,7 @@ public class Weapon : MonoBehaviour {
 
     public Camera fpsCam;
     public GameObject bullet;
+    public Texture scope;
     public AnimationManager tpAnimationManager;
     public PhotonView soundReceiver;
 
@@ -29,6 +30,7 @@ public class Weapon : MonoBehaviour {
     public int ammoAvailable = 1000;
 
     public bool canAim = false;
+    private bool isAiming = false;
     public float aimFOV = 20; // aim field of view
     public float regFOV = 60; // regular field of view
 
@@ -118,8 +120,9 @@ public class Weapon : MonoBehaviour {
         if (!canAim) return;
         fpsCam.fieldOfView = aimFOV;
 
-        // hide the gun parts
+        // hide the gun parts and render the scope
         setActive(false);
+        isAiming = true;
     }
 
     public void aimOut()
@@ -127,8 +130,9 @@ public class Weapon : MonoBehaviour {
         if (!canAim) return;
         fpsCam.fieldOfView = regFOV;
 
-        // re-enable the hidden gun parts
+        // re-enable the hidden gun parts and hide the scope
         setActive(true);
+        isAiming = false;
     }
 
     private void setActive(bool active)
@@ -140,11 +144,17 @@ public class Weapon : MonoBehaviour {
     }
 
     /*
-     * Renders the number of ammos left, and current player's score
+     * Renders the number of ammos left, and current player's score, and the aiming scope
      */
     void OnGUI()
     {
         GUI.Box(new Rect(120, 10, 120, 30), "Ammo | " + ammo + "/" + ammoAvailable);
+
+        // render scope
+        if (isAiming)
+        {
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), scope, ScaleMode.ScaleAndCrop);
+        }
     }
 
 }

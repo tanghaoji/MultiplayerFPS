@@ -10775,7 +10775,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 173130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.3943615, y: 0.5, z: -5.6223917}
+  m_LocalPosition: {x: -11.462929, y: 0.5, z: -6.58348}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -11699,6 +11699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fpsCam: {fileID: 2017264}
   bullet: {fileID: 193248, guid: bed488cc324fb0c47bd68d2a78f86857, type: 2}
+  scope: {fileID: 2800000, guid: b4ba84f2891b35443ae6d6c37561d31d, type: 3}
   tpAnimationManager: {fileID: 11489414}
   soundReceiver: {fileID: 11494978}
   partsToDisable:
@@ -11912,6 +11913,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fpsCam: {fileID: 2017264}
   bullet: {fileID: 193248, guid: bed488cc324fb0c47bd68d2a78f86857, type: 2}
+  scope: {fileID: 0}
   tpAnimationManager: {fileID: 11489414}
   soundReceiver: {fileID: 11494978}
   partsToDisable: []
@@ -11954,6 +11956,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fpsCam: {fileID: 2017264}
   bullet: {fileID: 193248, guid: bed488cc324fb0c47bd68d2a78f86857, type: 2}
+  scope: {fileID: 0}
   tpAnimationManager: {fileID: 11489414}
   soundReceiver: {fileID: 11494978}
   partsToDisable: []
