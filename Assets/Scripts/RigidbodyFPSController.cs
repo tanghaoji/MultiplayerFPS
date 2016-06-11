@@ -26,7 +26,11 @@ public class RigidbodyFPSController : MonoBehaviour
     public GameObject graphics;
     public PhotonView playerStatusReceiver;
 
-    public AudioSource shootSound;
+    // TODO: seperate to a audio manager
+    public AudioSource audioSource;
+    // a temperate local var in order to serialize the clip, 
+    // since the clip cannot be sent over RPC
+    private AudioClip audioToPlay;
 
     // TODO: put the score menu in a better place
     public bool isPause = false;
@@ -97,6 +101,12 @@ public class RigidbodyFPSController : MonoBehaviour
         return Mathf.Sqrt(2 * jumpHeight * gravity);
     }
 
+    // TODO: this method shouldn't be here
+    public void setAudioClipToPlay(AudioClip audioClip)
+    {
+        audioToPlay = audioClip;
+    }
+
     /*
      * Renders current player's hp and score
      */
@@ -132,10 +142,12 @@ public class RigidbodyFPSController : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    // make sure a local audio clip is set before call RPC
+    // TODO: is there another way to implement this?
     [PunRPC]
     public void playSound()
     {
-        shootSound.Play();
+        audioSource.PlayOneShot(audioToPlay);
     }
 
 }

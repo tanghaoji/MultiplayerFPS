@@ -11,6 +11,8 @@ public class AnimationManager : MonoBehaviour {
     
     // Client First Person Animation
     public Animation fpAnimation;
+
+    // TODO: these animation clips shouldn't belong to here
     public AnimationClip fpWalk;
     public AnimationClip fpIdle;
 

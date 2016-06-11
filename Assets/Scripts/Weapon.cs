@@ -20,6 +20,9 @@ public class Weapon : MonoBehaviour {
     public AnimationClip shoot;
     public AnimationClip reload;
 
+    // Gun audio
+    public AudioClip shootSound;
+
     public float recoilPower = 30;
     public int damage = 10;
     public int maxDamage = 30;
@@ -71,6 +74,7 @@ public class Weapon : MonoBehaviour {
         tpAnimationManager.fireShot();
 
         // play gun shoot sound
+        soundReceiver.transform.GetComponent<RigidbodyFPSController>().setAudioClipToPlay(shootSound);
         soundReceiver.RPC("playSound", PhotonTargets.AllBuffered, null);
 
         ammo--;
@@ -79,7 +83,7 @@ public class Weapon : MonoBehaviour {
         fpsCam.transform.Rotate(Vector3.right, -recoilPower * Time.deltaTime);
 
         RaycastHit hit;
-        Ray ray = fpsCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        Ray ray = fpsCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2 - 10, 0));
 
         if (Physics.Raycast(ray, out hit, range))
         {
