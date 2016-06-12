@@ -21,7 +21,9 @@ public class Weapon : MonoBehaviour {
     public AnimationClip reload;
 
     // Gun audio
-    public AudioClip shootSound;
+    // Since the current Unity doesn't support storing AudioClip array in AudioSource, 
+    // so we have to use hard coded index for each sound
+    public int shootSoundIndex;
 
     public float recoilPower = 30;
     public int damage = 10;
@@ -74,8 +76,7 @@ public class Weapon : MonoBehaviour {
         tpAnimationManager.fireShot();
 
         // play gun shoot sound
-        soundReceiver.transform.GetComponent<RigidbodyFPSController>().setAudioClipToPlay(shootSound);
-        soundReceiver.RPC("playSound", PhotonTargets.AllBuffered, null);
+        soundReceiver.RPC("playAudioClip", PhotonTargets.AllBuffered, shootSoundIndex);
 
         ammo--;
 
@@ -88,8 +89,7 @@ public class Weapon : MonoBehaviour {
         if (Physics.Raycast(ray, out hit, range))
         {
             // Shoot a bullet at the aiming point
-            GameObject par;
-            par = PhotonNetwork.Instantiate(bullet.name, hit.point, Quaternion.LookRotation(hit.normal), 0) as GameObject;
+            GameObject par= PhotonNetwork.Instantiate(bullet.name, hit.point, Quaternion.LookRotation(hit.normal), 0) as GameObject;
 
             // TODO: make it PhotonNetwork.Destroy
             Destroy(par, 0.2f);
@@ -160,5 +160,7 @@ public class Weapon : MonoBehaviour {
             GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), scope, ScaleMode.ScaleAndCrop);
         }
     }
+
+    
 
 }
