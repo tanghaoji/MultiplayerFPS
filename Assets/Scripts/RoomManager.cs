@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 /**
  * This class connects to the mp server and creates the main player
@@ -12,9 +13,12 @@ public class RoomManager : Photon.MonoBehaviour {
     public Transform[] spawnPoints;
     public GameObject playerPref;
 
+    public InRoomChat chat;
+
     public string roomName;
     public string playerName;
     public bool isIdle = false;
+    public bool isInRoom = false;
 
     void Start()
     {
@@ -24,17 +28,36 @@ public class RoomManager : Photon.MonoBehaviour {
         Debug.Log("Starting Connection");
     }
 
+    void Update()
+    {
+        // update the in-room chat
+        if (isInRoom)
+        {
+            chat.enabled = true;
+        } else
+        {
+            chat.enabled = false;
+        }
+    }
+
+    /**
+     * Pop up room creation and selection menu
+     */
     public void OnJoinedLobby()
     {
         isIdle = true;
+        isInRoom = false;
         Debug.Log("Starting Server!");
     }
 
+    /** 
+     * enter the game
+     */
     public void OnJoinedRoom()
     {
         PhotonNetwork.playerName = playerName;
         isIdle = false;
-        spawnPlayer();
+        isInRoom = true;
     }
 
     /**
@@ -42,6 +65,8 @@ public class RoomManager : Photon.MonoBehaviour {
      */
     public void spawnPlayer()
     {
+        isInRoom = false;
+
         Transform randomSpawnPt = spawnPoints[Random.Range(0, spawnPoints.Length)];
         GameObject pl = PhotonNetwork.Instantiate(playerPref.name, randomSpawnPt.position, randomSpawnPt.rotation, 0) as GameObject;
 
@@ -60,6 +85,7 @@ public class RoomManager : Photon.MonoBehaviour {
      */
     void OnGUI()
     {
+        // lobby
         if (isIdle)
         {
             GUILayout.BeginArea(new Rect(Screen.width / 2 - 150, Screen.height / 2 - 150, 300, 300));
@@ -78,6 +104,25 @@ public class RoomManager : Photon.MonoBehaviour {
                 {
                     PhotonNetwork.JoinOrCreateRoom(game.name, null, null);
                 }
+            }
+
+            GUILayout.EndArea();
+        }
+
+        // room
+        if (isInRoom)
+        {
+            GUILayout.BeginArea(new Rect(Screen.width / 2 - 150, Screen.height / 2 - 150, 300, 300));
+            GUILayout.Box("Score: " + PhotonNetwork.player.GetScore());
+            if (GUILayout.Button("Start game"))
+            {
+                spawnPlayer();
+            }
+
+            if (GUILayout.Button("Quit room"))
+            {
+                PhotonNetwork.Disconnect();
+                SceneManager.LoadScene(0);
             }
 
             GUILayout.EndArea();

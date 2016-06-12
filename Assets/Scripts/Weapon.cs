@@ -8,12 +8,20 @@ public class Weapon : MonoBehaviour {
 
     public Camera fpsCam;
     public GameObject bullet;
+    public Texture scope;
     public AnimationManager tpAnimationManager;
+    public PhotonView soundReceiver;
+
+    // the array of objects to disable when aiming
+    public GameObject[] partsToDisable;
 
     // Gun animation
     public Animation gun;
     public AnimationClip shoot;
     public AnimationClip reload;
+
+    // Gun audio
+    public AudioClip shootSound;
 
     public float recoilPower = 30;
     public int damage = 10;
@@ -24,12 +32,29 @@ public class Weapon : MonoBehaviour {
     // TODO: decide if we want limited ammos
     public int ammoAvailable = 1000;
 
+    public bool canAim = false;
+    private bool isAiming = false;
+    public float aimFOV = 20; // aim field of view
+    public float regFOV = 60; // regular field of view
+
     void Update()
     {
         // Mouse left click
         if (Input.GetMouseButton(0))
         {
             fireShot();
+        }
+
+        // Mouse right click down
+        if (Input.GetMouseButtonDown(1))
+        {
+            aim();
+        }
+
+        // Mouse right click up
+        if (Input.GetMouseButtonUp(1))
+        {
+            aimOut();
         }
 
         // Keyboard R
@@ -48,13 +73,17 @@ public class Weapon : MonoBehaviour {
         gun.CrossFade(shoot.name);
         tpAnimationManager.fireShot();
 
+        // play gun shoot sound
+        soundReceiver.transform.GetComponent<RigidbodyFPSController>().setAudioClipToPlay(shootSound);
+        soundReceiver.RPC("playSound", PhotonTargets.AllBuffered, null);
+
         ammo--;
 
         // Recoil
         fpsCam.transform.Rotate(Vector3.right, -recoilPower * Time.deltaTime);
 
         RaycastHit hit;
-        Ray ray = fpsCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        Ray ray = fpsCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2 - 10, 0));
 
         if (Physics.Raycast(ray, out hit, range))
         {
@@ -90,12 +119,46 @@ public class Weapon : MonoBehaviour {
         ammoAvailable -= clipSize;
     }
 
+    public void aim()
+    {
+        if (!canAim) return;
+        fpsCam.fieldOfView = aimFOV;
+
+        // hide the gun parts and render the scope
+        setActive(false);
+        isAiming = true;
+    }
+
+    public void aimOut()
+    {
+        if (!canAim) return;
+        fpsCam.fieldOfView = regFOV;
+
+        // re-enable the hidden gun parts and hide the scope
+        setActive(true);
+        isAiming = false;
+    }
+
+    private void setActive(bool active)
+    {
+        foreach (GameObject part in partsToDisable)
+        {
+            part.SetActive(active);
+        }
+    }
+
     /*
-     * Renders the number of ammos left, and current player's score
+     * Renders the number of ammos left, and current player's score, and the aiming scope
      */
     void OnGUI()
     {
         GUI.Box(new Rect(120, 10, 120, 30), "Ammo | " + ammo + "/" + ammoAvailable);
+
+        // render scope
+        if (isAiming)
+        {
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), scope, ScaleMode.ScaleAndCrop);
+        }
     }
 
 }

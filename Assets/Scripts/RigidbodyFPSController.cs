@@ -23,8 +23,15 @@ public class RigidbodyFPSController : MonoBehaviour
 
     public GameObject fpsCam;
     public GameObject me;
-    public GameObject graphics;
+    public GameObject graphics; // tp graphics
+    public GameObject ragDollPref;
     public PhotonView playerStatusReceiver;
+
+    // TODO: seperate to a audio manager
+    public AudioSource audioSource;
+    // a temperate local var in order to serialize the clip, 
+    // since the clip cannot be sent over RPC
+    private AudioClip audioToPlay;
 
     // TODO: put the score menu in a better place
     public bool isPause = false;
@@ -95,6 +102,12 @@ public class RigidbodyFPSController : MonoBehaviour
         return Mathf.Sqrt(2 * jumpHeight * gravity);
     }
 
+    // TODO: this method shouldn't be here
+    public void setAudioClipToPlay(AudioClip audioClip)
+    {
+        audioToPlay = audioClip;
+    }
+
     /*
      * Renders current player's hp and score
      */
@@ -125,9 +138,24 @@ public class RigidbodyFPSController : MonoBehaviour
     [PunRPC]
     public void die()
     {
+        if (!GetComponent<PhotonView>().isMine) return;
+
         PhotonNetwork.Destroy(me);
-        PhotonNetwork.Disconnect();
-        SceneManager.LoadScene(0);
+        Destroy(me);
+
+        // create a rag doll (dead body)
+        GameObject doll = PhotonNetwork.Instantiate(ragDollPref.name, transform.position, transform.rotation, 0) as GameObject;
+        Destroy(doll, 5);
+        // back to the room menu
+        GameObject.Find("_ROOM").GetComponent<RoomManager>().OnJoinedRoom();
+    }
+
+    // make sure a local audio clip is set before call RPC
+    // TODO: is there another way to implement this?
+    [PunRPC]
+    public void playSound()
+    {
+        audioSource.PlayOneShot(audioToPlay);
     }
 
 }
