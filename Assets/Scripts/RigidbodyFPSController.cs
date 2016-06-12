@@ -23,7 +23,8 @@ public class RigidbodyFPSController : MonoBehaviour
 
     public GameObject fpsCam;
     public GameObject me;
-    public GameObject graphics;
+    public GameObject graphics; // tp graphics
+    public GameObject ragDollPref;
     public PhotonView playerStatusReceiver;
 
     // TODO: seperate to a audio manager
@@ -137,9 +138,16 @@ public class RigidbodyFPSController : MonoBehaviour
     [PunRPC]
     public void die()
     {
+        if (!GetComponent<PhotonView>().isMine) return;
+
         PhotonNetwork.Destroy(me);
-        PhotonNetwork.Disconnect();
-        SceneManager.LoadScene(0);
+        Destroy(me);
+
+        // create a rag doll (dead body)
+        GameObject doll = PhotonNetwork.Instantiate(ragDollPref.name, transform.position, transform.rotation, 0) as GameObject;
+        Destroy(doll, 5);
+        // back to the room menu
+        GameObject.Find("_ROOM").GetComponent<RoomManager>().OnJoinedRoom();
     }
 
     // make sure a local audio clip is set before call RPC

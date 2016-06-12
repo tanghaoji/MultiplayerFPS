@@ -5994,7 +5994,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 117322}
-  m_LocalRotation: {x: 0.6025666, y: 0.008674448, z: 0.7966554, w: 0.046672005}
+  m_LocalRotation: {x: 0.60256666, y: 0.008674449, z: 0.79665554, w: 0.04667201}
   m_LocalPosition: {x: -0.07538075, y: -0.56980306, z: 0.6006876}
   m_LocalScale: {x: 0.9999999, y: 0.99999976, z: 0.99999976}
   m_LocalEulerAnglesHint: {x: 2.4314947, y: 74.10215, z: 175.1301}
@@ -7541,7 +7541,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 181358}
-  m_LocalRotation: {x: 0.6025666, y: 0.008674448, z: 0.7966554, w: 0.046672005}
+  m_LocalRotation: {x: 0.60256666, y: 0.008674449, z: 0.79665554, w: 0.04667201}
   m_LocalPosition: {x: -0.07538075, y: -0.56980306, z: 0.6006876}
   m_LocalScale: {x: 0.9999999, y: 0.99999976, z: 0.99999976}
   m_LocalEulerAnglesHint: {x: 2.4314957, y: 74.10215, z: 175.1301}
@@ -8606,7 +8606,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176408}
-  m_LocalRotation: {x: 0.60256666, y: 0.008674449, z: 0.79665554, w: 0.04667201}
+  m_LocalRotation: {x: 0.6025666, y: 0.008674448, z: 0.7966554, w: 0.046672005}
   m_LocalPosition: {x: -0.07538075, y: -0.56980306, z: 0.6006876}
   m_LocalScale: {x: 0.9999999, y: 0.99999976, z: 0.99999976}
   m_LocalEulerAnglesHint: {x: 2.431496, y: 74.10215, z: 175.1301}
@@ -10775,7 +10775,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 173130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.832881, y: 0.5, z: -6.9889474}
+  m_LocalPosition: {x: -15.392996, y: 0.5, z: -7.564698}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -11660,6 +11660,7 @@ MonoBehaviour:
   fpsCam: {fileID: 199056}
   me: {fileID: 173130}
   graphics: {fileID: 104118}
+  ragDollPref: {fileID: 119996, guid: 20cda469c5aecfd428fe09333a05a261, type: 2}
   playerStatusReceiver: {fileID: 11468880}
   audioSource: {fileID: 8256706}
   isPause: 0

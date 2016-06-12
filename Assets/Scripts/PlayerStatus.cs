@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 /*
- * A class for receiving and updating the player status
+ * A class for receiving and updating the player status over network, get called from RigidbodyFPSController 
  */
 public class PlayerStatus : MonoBehaviour {
 
