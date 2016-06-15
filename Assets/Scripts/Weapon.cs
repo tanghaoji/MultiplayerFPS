@@ -9,19 +9,28 @@ public class Weapon : MonoBehaviour {
     public Camera fpsCam;
     public GameObject bullet;
     public Texture scope;
-    public AnimationManager tpAnimationManager;
+    public AnimationManager fpAnimationManager;
+    public TpAnimationManager tpAnimationManager;
     public PhotonView soundReceiver;
 
     // the array of objects to disable when aiming
     public GameObject[] partsToDisable;
 
-    // Gun animation
-    public Animation gun;
-    public AnimationClip shoot;
-    public AnimationClip reload;
+    // fp animations
+    //public Animation gun;
+    public AnimationClip fpShoot;
+    public AnimationClip fpReload;
+
+    // tp animations
+    // TODO: add more animations
+    public AnimationClip tpShoot;
+    public AnimationClip tpRunShoot;
+    public AnimationClip tpReload;
 
     // Gun audio
-    public AudioClip shootSound;
+    // Since the current Unity doesn't support storing AudioClip array in AudioSource, 
+    // so we have to use hard coded index for each sound
+    public int shootSoundIndex;
 
     public float recoilPower = 30;
     public int damage = 10;
@@ -67,15 +76,16 @@ public class Weapon : MonoBehaviour {
     public void fireShot()
     {
         // Don't shoot bullets while the gun is animating or there's no ammo
-        if (gun.isPlaying || ammo <= 0) return;
+        if (fpAnimationManager.isPlaying() || ammo <= 0) return;
 
         // render animation on local and network
-        gun.CrossFade(shoot.name);
-        tpAnimationManager.fireShot();
+        fpAnimationManager.playAnimation(fpShoot);
+        tpAnimationManager.stopAnimation();
+        tpAnimationManager.playAnimation(tpRunShoot);
+        Debug.Log("Gun shot-------------------------------------------------------");
 
         // play gun shoot sound
-        soundReceiver.transform.GetComponent<RigidbodyFPSController>().setAudioClipToPlay(shootSound);
-        soundReceiver.RPC("playSound", PhotonTargets.AllBuffered, null);
+        soundReceiver.RPC("playAudioClip", PhotonTargets.AllBuffered, shootSoundIndex);
 
         ammo--;
 
@@ -83,13 +93,12 @@ public class Weapon : MonoBehaviour {
         fpsCam.transform.Rotate(Vector3.right, -recoilPower * Time.deltaTime);
 
         RaycastHit hit;
-        Ray ray = fpsCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2 - 10, 0));
+        Ray ray = fpsCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2 - 25, 0));
 
         if (Physics.Raycast(ray, out hit, range))
         {
             // Shoot a bullet at the aiming point
-            GameObject par;
-            par = PhotonNetwork.Instantiate(bullet.name, hit.point, Quaternion.LookRotation(hit.normal), 0) as GameObject;
+            GameObject par= PhotonNetwork.Instantiate(bullet.name, hit.point, Quaternion.LookRotation(hit.normal), 0) as GameObject;
 
             // TODO: make it PhotonNetwork.Destroy
             Destroy(par, 0.2f);
@@ -112,8 +121,9 @@ public class Weapon : MonoBehaviour {
         if (ammoAvailable <= 0) return;
 
         // render animation on local and network
-        gun.CrossFade(reload.name);
-        tpAnimationManager.reloadAmmo();
+        fpAnimationManager.playAnimation(fpReload);
+        tpAnimationManager.stopAnimation();
+        tpAnimationManager.playAnimation(tpReload);
 
         ammo = clipSize;
         ammoAvailable -= clipSize;
@@ -160,5 +170,7 @@ public class Weapon : MonoBehaviour {
             GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), scope, ScaleMode.ScaleAndCrop);
         }
     }
+
+    
 
 }

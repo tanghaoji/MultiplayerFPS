@@ -27,11 +27,16 @@ public class RigidbodyFPSController : MonoBehaviour
     public GameObject ragDollPref;
     public PhotonView playerStatusReceiver;
 
-    // TODO: seperate to a audio manager
-    public AudioSource audioSource;
-    // a temperate local var in order to serialize the clip, 
-    // since the clip cannot be sent over RPC
-    private AudioClip audioToPlay;
+    // fp animations
+    public AnimationManager fpAnimationManager;
+    public AnimationClip fpWalk;
+    public AnimationClip fpIdle;
+
+    // tp animations
+    public TpAnimationManager tpAnimationManager;
+    public AnimationClip tpIdle;
+    public AnimationClip tpRun;
+    // TODO: add more tp animations here...
 
     // TODO: put the score menu in a better place
     public bool isPause = false;
@@ -67,6 +72,26 @@ public class RigidbodyFPSController : MonoBehaviour
             {
                 GetComponent<Rigidbody>().velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
             }
+
+            // Play movement animation
+            if (velocity.magnitude >= 0.1)
+            {
+                fpAnimationManager.playAnimation(fpWalk);
+                // TODO: this is a temporary fix for idle is not animating after gun shot
+                tpAnimationManager.stopAnimation();
+                tpAnimationManager.playAnimation(tpRun);
+            } else
+            {
+                fpAnimationManager.playAnimation(fpIdle);
+                tpAnimationManager.stopPlay(tpRun);
+
+                // Right now, tpIdle has conflicts with other tp animations
+                // Without this check, tpIdle will overwrite everthing else
+                if (tpAnimationManager.canPlay(tpIdle)) {
+                    tpAnimationManager.playAnimation(tpIdle);
+                }
+                
+            }
         }
 
         // We apply gravity manually for more tuning control
@@ -76,7 +101,7 @@ public class RigidbodyFPSController : MonoBehaviour
 
         if (health <= 0)
         {
-            GetComponent<PhotonView>().RPC("die", PhotonTargets.AllBuffered, null);
+            die();
         }
 
         // Hold TAB will pause the game
@@ -100,12 +125,6 @@ public class RigidbodyFPSController : MonoBehaviour
         // From the jump height and gravity we deduce the upwards speed 
         // for the character to reach at the apex.
         return Mathf.Sqrt(2 * jumpHeight * gravity);
-    }
-
-    // TODO: this method shouldn't be here
-    public void setAudioClipToPlay(AudioClip audioClip)
-    {
-        audioToPlay = audioClip;
     }
 
     /*
@@ -135,27 +154,22 @@ public class RigidbodyFPSController : MonoBehaviour
         playerStatusReceiver.RPC("updateHP", PhotonTargets.AllBuffered, health, maxHealth);
     }
 
-    [PunRPC]
-    public void die()
+    private void die()
     {
-        if (!GetComponent<PhotonView>().isMine) return;
-
-        PhotonNetwork.Destroy(me);
-        Destroy(me);
+        // just a safety guard to make sure die is called only once when a player's hp <= 0
+        health = maxHealth;
 
         // create a rag doll (dead body)
-        GameObject doll = PhotonNetwork.Instantiate(ragDollPref.name, transform.position, transform.rotation, 0) as GameObject;
+        Vector3 currentPosn = transform.position;
+        GameObject doll = PhotonNetwork.Instantiate(ragDollPref.name, new Vector3(currentPosn.x, currentPosn.y + 1.5f, currentPosn.z), transform.rotation, 0) as GameObject;
+
+        PhotonNetwork.Destroy(me);
+        
+        // TODO: make it PhotonNetwork
         Destroy(doll, 5);
+
         // back to the room menu
         GameObject.Find("_ROOM").GetComponent<RoomManager>().OnJoinedRoom();
-    }
-
-    // make sure a local audio clip is set before call RPC
-    // TODO: is there another way to implement this?
-    [PunRPC]
-    public void playSound()
-    {
-        audioSource.PlayOneShot(audioToPlay);
     }
 
 }

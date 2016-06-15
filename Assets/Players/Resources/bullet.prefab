@@ -44,7 +44,7 @@ GameObject:
   - 4: {fileID: 436032}
   - 198: {fileID: 19814368}
   - 199: {fileID: 19901140}
-  - 114: {fileID: 11480140}
+  - 114: {fileID: 11443462}
   m_Layer: 0
   m_Name: bullet
   m_TagString: Untagged
@@ -93,7 +93,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 436032}
   m_RootOrder: 1
---- !u!114 &11480140
+--- !u!114 &11443462
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -112,7 +112,8 @@ MonoBehaviour:
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
