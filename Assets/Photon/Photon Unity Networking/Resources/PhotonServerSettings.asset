@@ -38,4 +38,6 @@ MonoBehaviour:
   - playSound
   - shootBullet
   - playAudioClip
+  - stopAnimationPV
+  - stopPlayPV
   DisableAutoOpenWizard: 1

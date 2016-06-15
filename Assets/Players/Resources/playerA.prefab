@@ -150,6 +150,7 @@ GameObject:
   - 111: {fileID: 11112220}
   - 114: {fileID: 11465848}
   - 114: {fileID: 11489414}
+  - 114: {fileID: 11406478}
   m_Layer: 0
   m_Name: ArmyPilot
   m_TagString: Untagged
@@ -380,14 +381,14 @@ GameObject:
   - 4: {fileID: 459378}
   - 111: {fileID: 11172810}
   - 114: {fileID: 11479074}
-  - 114: {fileID: 11445066}
+  - 114: {fileID: 11412244}
   m_Layer: 8
   m_Name: cz805
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &111932
 GameObject:
   m_ObjectHideFlags: 1
@@ -2560,14 +2561,14 @@ GameObject:
   - 4: {fileID: 401760}
   - 111: {fileID: 11103988}
   - 114: {fileID: 11439458}
-  - 114: {fileID: 11457902}
+  - 114: {fileID: 11437174}
   m_Layer: 8
   m_Name: SVD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &159234
 GameObject:
   m_ObjectHideFlags: 1
@@ -4436,7 +4437,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 117322}
-  m_LocalRotation: {x: 0.60256666, y: 0.008674449, z: 0.79665554, w: 0.04667201}
+  m_LocalRotation: {x: 0.6025666, y: 0.008674448, z: 0.7966554, w: 0.046672005}
   m_LocalPosition: {x: -0.07538075, y: -0.56980306, z: 0.6006876}
   m_LocalScale: {x: 0.9999999, y: 0.99999976, z: 0.99999976}
   m_LocalEulerAnglesHint: {x: 2.4314947, y: 74.10215, z: 175.1301}
@@ -5614,7 +5615,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 181358}
-  m_LocalRotation: {x: 0.60256666, y: 0.008674449, z: 0.79665554, w: 0.04667201}
+  m_LocalRotation: {x: 0.6025666, y: 0.008674448, z: 0.7966554, w: 0.046672005}
   m_LocalPosition: {x: -0.07538075, y: -0.56980306, z: 0.6006876}
   m_LocalScale: {x: 0.9999999, y: 0.99999976, z: 0.99999976}
   m_LocalEulerAnglesHint: {x: 2.4314957, y: 74.10215, z: 175.1301}
@@ -7959,7 +7960,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 173130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.040026, y: 0.5, z: -6.81706}
+  m_LocalPosition: {x: -14.903059, y: 0.5, z: -7.0703754}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -8720,6 +8721,19 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &11406478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 103980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2c82ed6f62c63b4c9dbe49549342330, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tpAnimation: {fileID: 11112220}
+  photonView: {fileID: 11465848}
 --- !u!114 &11407270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8745,6 +8759,18 @@ MonoBehaviour:
   viewIdField: 0
   instantiationId: -1
   isRuntimeInstantiated: 0
+--- !u!114 &11412244
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef1f9407ad5f1b47b5508bd10e486ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fpAnimation: {fileID: 11172810}
 --- !u!114 &11415542
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8800,7 +8826,12 @@ MonoBehaviour:
   graphics: {fileID: 104118}
   ragDollPref: {fileID: 119996, guid: 20cda469c5aecfd428fe09333a05a261, type: 2}
   playerStatusReceiver: {fileID: 11468880}
-  audioSource: {fileID: 8256706}
+  fpAnimationManager: {fileID: 11437676}
+  fpWalk: {fileID: 7400000, guid: 397a6088180e54e4d890f433b260c0b0, type: 2}
+  fpIdle: {fileID: 7400000, guid: ff6c047f6edd099419ecc4c1376f47e9, type: 2}
+  tpAnimationManager: {fileID: 11406478}
+  tpIdle: {fileID: 7400000, guid: 5a3db0551859bb842a0e096ccf27c11c, type: 2}
+  tpRun: {fileID: 7400000, guid: 286916650a3fcc444af825b693d49260, type: 2}
   isPause: 0
 --- !u!114 &11436856
 MonoBehaviour:
@@ -8827,6 +8858,18 @@ MonoBehaviour:
   viewIdField: 0
   instantiationId: -1
   isRuntimeInstantiated: 0
+--- !u!114 &11437174
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 159226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef1f9407ad5f1b47b5508bd10e486ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fpAnimation: {fileID: 11103988}
 --- !u!114 &11437676
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8838,18 +8881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ef1f9407ad5f1b47b5508bd10e486ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTp: 0
   fpAnimation: {fileID: 11132460}
-  fpWalk: {fileID: 7400000, guid: 397a6088180e54e4d890f433b260c0b0, type: 2}
-  fpIdle: {fileID: 7400000, guid: ff6c047f6edd099419ecc4c1376f47e9, type: 2}
-  photonView: {fileID: 0}
-  tpAnimation: {fileID: 0}
-  tpIdle: {fileID: 0}
-  tpRun: {fileID: 0}
-  tpShoot: {fileID: 0}
-  tpRunShoot: {fileID: 0}
-  tpReload: {fileID: 0}
-  rigidBody: {fileID: 5433444}
 --- !u!114 &11439458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8864,17 +8896,20 @@ MonoBehaviour:
   fpsCam: {fileID: 2017264}
   bullet: {fileID: 193248, guid: bed488cc324fb0c47bd68d2a78f86857, type: 2}
   scope: {fileID: 2800000, guid: b4ba84f2891b35443ae6d6c37561d31d, type: 3}
-  tpAnimationManager: {fileID: 11489414}
+  fpAnimationManager: {fileID: 11437174}
+  tpAnimationManager: {fileID: 11406478}
   soundReceiver: {fileID: 11436856}
   partsToDisable:
   - {fileID: 155766}
   - {fileID: 114726}
   - {fileID: 139098}
-  gun: {fileID: 11103988}
-  shoot: {fileID: 7400000, guid: 21cf76c508409a44ba041e3a72e5220a, type: 2}
-  reload: {fileID: 7400000, guid: fae8f408b0d840c4ba5fc6600be5cee2, type: 2}
+  fpShoot: {fileID: 7400000, guid: 21cf76c508409a44ba041e3a72e5220a, type: 2}
+  fpReload: {fileID: 7400000, guid: fae8f408b0d840c4ba5fc6600be5cee2, type: 2}
+  tpShoot: {fileID: 7400000, guid: 078844d03b9b5ac45a88f805c8b07205, type: 2}
+  tpRunShoot: {fileID: 7400000, guid: 3a6793549efe1d841b081450440237bf, type: 2}
+  tpReload: {fileID: 7400000, guid: bea49d568724a9f44a0620563372fdcd, type: 2}
   shootSoundIndex: 1
-  recoilPower: 60
+  recoilPower: 100
   damage: 50
   maxDamage: 99
   range: 200
@@ -8884,31 +8919,6 @@ MonoBehaviour:
   canAim: 1
   aimFOV: 20
   regFOV: 60
---- !u!114 &11445066
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 111278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &11449784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8956,31 +8966,6 @@ MonoBehaviour:
   weapons:
   - {fileID: 111278}
   - {fileID: 159226}
---- !u!114 &11457902
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 159226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &11459214
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9092,12 +9077,15 @@ MonoBehaviour:
   fpsCam: {fileID: 2017264}
   bullet: {fileID: 193248, guid: bed488cc324fb0c47bd68d2a78f86857, type: 2}
   scope: {fileID: 0}
-  tpAnimationManager: {fileID: 11489414}
+  fpAnimationManager: {fileID: 11412244}
+  tpAnimationManager: {fileID: 11406478}
   soundReceiver: {fileID: 11436856}
   partsToDisable: []
-  gun: {fileID: 11172810}
-  shoot: {fileID: 7400000, guid: c3e49a6480e7de445aaaa3204140f66d, type: 2}
-  reload: {fileID: 7400000, guid: fae8f408b0d840c4ba5fc6600be5cee2, type: 2}
+  fpShoot: {fileID: 7400000, guid: c3e49a6480e7de445aaaa3204140f66d, type: 2}
+  fpReload: {fileID: 7400000, guid: fae8f408b0d840c4ba5fc6600be5cee2, type: 2}
+  tpShoot: {fileID: 7400000, guid: 078844d03b9b5ac45a88f805c8b07205, type: 2}
+  tpRunShoot: {fileID: 7400000, guid: 3a6793549efe1d841b081450440237bf, type: 2}
+  tpReload: {fileID: 7400000, guid: bea49d568724a9f44a0620563372fdcd, type: 2}
   shootSoundIndex: 0
   recoilPower: 30
   damage: 15
@@ -9144,23 +9132,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 103980}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ef1f9407ad5f1b47b5508bd10e486ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTp: 1
   fpAnimation: {fileID: 0}
-  fpWalk: {fileID: 0}
-  fpIdle: {fileID: 0}
-  photonView: {fileID: 11465848}
-  tpAnimation: {fileID: 11112220}
-  tpIdle: {fileID: 7400000, guid: da019fb9b64440c4c8a1e44230a20f5c, type: 2}
-  tpRun: {fileID: 7400000, guid: 286916650a3fcc444af825b693d49260, type: 2}
-  tpShoot: {fileID: 7400000, guid: 078844d03b9b5ac45a88f805c8b07205, type: 2}
-  tpRunShoot: {fileID: 7400000, guid: 3a6793549efe1d841b081450440237bf, type: 2}
-  tpReload: {fileID: 7400000, guid: bea49d568724a9f44a0620563372fdcd, type: 2}
-  rigidBody: {fileID: 5433444}
 --- !u!114 &11494978
 MonoBehaviour:
   m_ObjectHideFlags: 1

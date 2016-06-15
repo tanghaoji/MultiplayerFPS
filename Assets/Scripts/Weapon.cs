@@ -9,16 +9,23 @@ public class Weapon : MonoBehaviour {
     public Camera fpsCam;
     public GameObject bullet;
     public Texture scope;
-    public AnimationManager tpAnimationManager;
+    public AnimationManager fpAnimationManager;
+    public TpAnimationManager tpAnimationManager;
     public PhotonView soundReceiver;
 
     // the array of objects to disable when aiming
     public GameObject[] partsToDisable;
 
-    // Gun animation
-    public Animation gun;
-    public AnimationClip shoot;
-    public AnimationClip reload;
+    // fp animations
+    //public Animation gun;
+    public AnimationClip fpShoot;
+    public AnimationClip fpReload;
+
+    // tp animations
+    // TODO: add more animations
+    public AnimationClip tpShoot;
+    public AnimationClip tpRunShoot;
+    public AnimationClip tpReload;
 
     // Gun audio
     // Since the current Unity doesn't support storing AudioClip array in AudioSource, 
@@ -69,11 +76,13 @@ public class Weapon : MonoBehaviour {
     public void fireShot()
     {
         // Don't shoot bullets while the gun is animating or there's no ammo
-        if (gun.isPlaying || ammo <= 0) return;
+        if (fpAnimationManager.isPlaying() || ammo <= 0) return;
 
         // render animation on local and network
-        gun.CrossFade(shoot.name);
-        tpAnimationManager.fireShot();
+        fpAnimationManager.playAnimation(fpShoot);
+        tpAnimationManager.stopAnimation();
+        tpAnimationManager.playAnimation(tpRunShoot);
+        Debug.Log("Gun shot-------------------------------------------------------");
 
         // play gun shoot sound
         soundReceiver.RPC("playAudioClip", PhotonTargets.AllBuffered, shootSoundIndex);
@@ -84,7 +93,7 @@ public class Weapon : MonoBehaviour {
         fpsCam.transform.Rotate(Vector3.right, -recoilPower * Time.deltaTime);
 
         RaycastHit hit;
-        Ray ray = fpsCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2 - 10, 0));
+        Ray ray = fpsCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2 - 25, 0));
 
         if (Physics.Raycast(ray, out hit, range))
         {
@@ -112,8 +121,9 @@ public class Weapon : MonoBehaviour {
         if (ammoAvailable <= 0) return;
 
         // render animation on local and network
-        gun.CrossFade(reload.name);
-        tpAnimationManager.reloadAmmo();
+        fpAnimationManager.playAnimation(fpReload);
+        tpAnimationManager.stopAnimation();
+        tpAnimationManager.playAnimation(tpReload);
 
         ammo = clipSize;
         ammoAvailable -= clipSize;

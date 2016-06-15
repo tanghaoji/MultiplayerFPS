@@ -27,6 +27,17 @@ public class RigidbodyFPSController : MonoBehaviour
     public GameObject ragDollPref;
     public PhotonView playerStatusReceiver;
 
+    // fp animations
+    public AnimationManager fpAnimationManager;
+    public AnimationClip fpWalk;
+    public AnimationClip fpIdle;
+
+    // tp animations
+    public TpAnimationManager tpAnimationManager;
+    public AnimationClip tpIdle;
+    public AnimationClip tpRun;
+    // TODO: add more tp animations here...
+
     // TODO: put the score menu in a better place
     public bool isPause = false;
 
@@ -60,6 +71,26 @@ public class RigidbodyFPSController : MonoBehaviour
             if (canJump && Input.GetButton("Jump"))
             {
                 GetComponent<Rigidbody>().velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
+            }
+
+            // Play movement animation
+            if (velocity.magnitude >= 0.1)
+            {
+                fpAnimationManager.playAnimation(fpWalk);
+                // TODO: this is a temporary fix for idle is not animating after gun shot
+                tpAnimationManager.stopAnimation();
+                tpAnimationManager.playAnimation(tpRun);
+            } else
+            {
+                fpAnimationManager.playAnimation(fpIdle);
+                tpAnimationManager.stopPlay(tpRun);
+
+                // Right now, tpIdle has conflicts with other tp animations
+                // Without this check, tpIdle will overwrite everthing else
+                if (tpAnimationManager.canPlay(tpIdle)) {
+                    tpAnimationManager.playAnimation(tpIdle);
+                }
+                
             }
         }
 

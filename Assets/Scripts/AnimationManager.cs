@@ -2,94 +2,51 @@
 using System.Collections;
 
 /**
- * This class renders the player animations locally and to network
+ * This class renders the player animations locally or to network
+ * It can be registered to the component with only one purpose: either play locally or across the network
  */
+ // TODO: make a super class for AnimationManager
 public class AnimationManager : MonoBehaviour {
-
-    // TODO: get rid of this flag
-    public bool isTp = false;
     
-    // Client First Person Animation
+    // Animation sources for fp(locally) and tp(remotely)
     public Animation fpAnimation;
 
-    // TODO: these animation clips shouldn't belong to here
-    public AnimationClip fpWalk;
-    public AnimationClip fpIdle;
-
-    // Network Third Person Animation
-    public PhotonView photonView;
-    public Animation tpAnimation;
-    public AnimationClip tpIdle;
-    public AnimationClip tpRun;
-    public AnimationClip tpShoot;
-    public AnimationClip tpRunShoot;
-    public AnimationClip tpReload;
-
-    // This is the player that is tracking
-    public Rigidbody rigidBody;
-
-    void Update()
+    /**
+     * A generic method to play an animation clip, it will play locally or remotely depending on the context
+     */
+    public void playAnimation(AnimationClip animationClip)
     {
-        // if the player is walking, play the walk animation
-        if (rigidBody.velocity.magnitude >= 0.1)
-        {
-            playFpAnimation(fpWalk);
-            playTpAnimation(tpRun);
-        } else
-        {
-            playFpAnimation(fpIdle);
-
-            // so that it will not conflict with reload
-            // TODO: put every animation into an array
-            if (isTp && !tpAnimation.IsPlaying(tpReload.name) && !tpAnimation.IsPlaying(tpRunShoot.name))
-            {
-                playTpAnimation(tpIdle);
-            }
-            
-        }
+        playFpAnimation(animationClip);
     }
 
-    // TODO: refactor this method
-    public void reloadAmmo()
+    /**
+     * Tp only, returns true if this animationClip will not overwrite animation that is currently playing
+     * false, otherwise 
+     */
+    public bool canPlay(AnimationClip animationClip)
     {
-        playTpAnimation(tpReload);
+        return true;
     }
 
-    // TODO: refactor this method
-    public void fireShot()
+    public bool isPlaying()
     {
-        playTpAnimation(tpRunShoot);
+        return fpAnimation.isPlaying;
     }
 
     // renders First Person animation on local
     private void playFpAnimation(AnimationClip animationClip)
     {
-        if (isTp) return;
         fpAnimation.CrossFade(animationClip.name);
     }
 
-    // renders Third Person animation to network
-    private void playTpAnimation(AnimationClip animationClip)
+    public void stopPlay(AnimationClip animationClip)
     {
-        if (!isTp) return;
-        photonView.RPC("playAnimationPV", PhotonTargets.All, animationClip.name);
+        fpAnimation.Stop(animationClip.name);
     }
 
     public void stopAnimation()
     {
-        if (isTp)
-        {
-            tpAnimation.Stop();
-        } else
-        {
-            fpAnimation.Stop();
-        }
-    }
-
-    [PunRPC]
-    public void playAnimationPV(string animationName)
-    {
-        tpAnimation.CrossFade(animationName);
+        fpAnimation.Stop();
     }
 
 }
