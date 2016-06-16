@@ -40,4 +40,6 @@ MonoBehaviour:
   - playAudioClip
   - stopAnimationPV
   - stopPlayPV
+  - addFeed
+  - Feed
   DisableAutoOpenWizard: 1

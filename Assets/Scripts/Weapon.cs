@@ -107,7 +107,7 @@ public class Weapon : MonoBehaviour {
             if (hit.transform.tag == "Player")
             {
                 Debug.Log("hit target!");
-                hit.transform.GetComponent<PhotonView>().RPC("applyDamage", PhotonTargets.All, Random.Range(damage,maxDamage));
+                hit.transform.GetComponent<PhotonView>().RPC("applyDamage", PhotonTargets.All, Random.Range(damage,maxDamage), PhotonNetwork.playerName);
 
                 // Add score to the current player
                 PhotonNetwork.player.AddScore(1);

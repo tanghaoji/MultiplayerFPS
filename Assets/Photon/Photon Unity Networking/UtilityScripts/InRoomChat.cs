@@ -48,8 +48,9 @@ public class InRoomChat : Photon.MonoBehaviour
         GUILayout.BeginArea(this.GuiRect);
 
         scrollPos = GUILayout.BeginScrollView(scrollPos);
+        scrollPos.y = Mathf.Infinity;
         GUILayout.FlexibleSpace();
-        for (int i = messages.Count - 1; i >= 0; i--)
+        for (int i = 0; i < messages.Count; i++)
         {
             GUILayout.Label(messages[i]);
         }
@@ -88,8 +89,19 @@ public class InRoomChat : Photon.MonoBehaviour
         this.messages.Add(senderName +": " + newLine);
     }
 
+    [PunRPC]
+    public void Feed(string newLine, PhotonMessageInfo mi)
+    {
+        this.messages.Add(newLine);
+    }
+
     public void AddLine(string newLine)
     {
         this.messages.Add(newLine);
+    }
+
+    public void AddFeed(string feed)
+    {
+        this.photonView.RPC("Feed", PhotonTargets.All, feed);
     }
 }

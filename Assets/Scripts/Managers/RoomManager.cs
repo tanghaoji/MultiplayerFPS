@@ -2,6 +2,15 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
+public enum GameState
+{
+    Offline,
+    InLobby,
+    InRoom,
+    InGame
+}
+
+
 /**
  * This class connects to the mp server and creates the main player
  */
@@ -17,21 +26,22 @@ public class RoomManager : Photon.MonoBehaviour {
 
     public string roomName;
     public string playerName;
-    public bool isIdle = false;
-    public bool isInRoom = false;
+
+    private GameState gameState = GameState.Offline;
 
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings(verNum);
         roomName = "Room " + Random.Range(0, 999);
         playerName = "Player " + Random.Range(0, 20);
+        gameState = GameState.InLobby;
         Debug.Log("Starting Connection");
     }
 
     void Update()
     {
-        // update the in-room chat
-        if (isInRoom)
+        // update the in-room and in-game chat
+        if (gameState == GameState.InRoom || gameState == GameState.InGame)
         {
             chat.enabled = true;
         } else
@@ -45,8 +55,7 @@ public class RoomManager : Photon.MonoBehaviour {
      */
     public void OnJoinedLobby()
     {
-        isIdle = true;
-        isInRoom = false;
+        gameState = GameState.InLobby;
         Debug.Log("Starting Server!");
     }
 
@@ -56,8 +65,7 @@ public class RoomManager : Photon.MonoBehaviour {
     public void OnJoinedRoom()
     {
         PhotonNetwork.playerName = playerName;
-        isIdle = false;
-        isInRoom = true;
+        gameState = GameState.InRoom;
     }
 
     /**
@@ -65,7 +73,7 @@ public class RoomManager : Photon.MonoBehaviour {
      */
     public void spawnPlayer()
     {
-        isInRoom = false;
+        gameState = GameState.InGame;
 
         Transform randomSpawnPt = spawnPoints[Random.Range(0, spawnPoints.Length)];
         GameObject pl = PhotonNetwork.Instantiate(playerPref.name, randomSpawnPt.position, randomSpawnPt.rotation, 0) as GameObject;
@@ -86,7 +94,7 @@ public class RoomManager : Photon.MonoBehaviour {
     void OnGUI()
     {
         // lobby
-        if (isIdle)
+        if (gameState == GameState.InLobby)
         {
             GUILayout.BeginArea(new Rect(Screen.width / 2 - 150, Screen.height / 2 - 150, 300, 300));
 
@@ -110,7 +118,7 @@ public class RoomManager : Photon.MonoBehaviour {
         }
 
         // room
-        if (isInRoom)
+        if (gameState == GameState.InRoom)
         {
             GUILayout.BeginArea(new Rect(Screen.width / 2 - 150, Screen.height / 2 - 150, 300, 300));
             GUILayout.Box("Score: " + PhotonNetwork.player.GetScore());

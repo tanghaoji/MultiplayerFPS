@@ -41,6 +41,9 @@ public class RigidbodyFPSController : MonoBehaviour
     // TODO: put the score menu in a better place
     public bool isPause = false;
 
+    // TODO: remove this temp var
+    private string dmgFrom = "";
+
     void Awake()
     {
         GetComponent<Rigidbody>().freezeRotation = true;
@@ -104,12 +107,12 @@ public class RigidbodyFPSController : MonoBehaviour
             die();
         }
 
-        // Hold TAB will pause the game
-        if (Input.GetKeyDown(KeyCode.Tab))
+        // Hold SHIFT will pause the game
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isPause = true;
         } 
-        if (Input.GetKeyUp(KeyCode.Tab))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             isPause = false;
         }
@@ -138,22 +141,41 @@ public class RigidbodyFPSController : MonoBehaviour
         // Renders a score menu
         if (isPause)
         {
-            GUILayout.BeginArea(new Rect(Screen.width / 2 - 250, Screen.height / 2 - 250, 500, 500));
+            GUILayout.BeginArea(new Rect(Screen.width / 2 - 150, Screen.height / 2 - 150, 300, 300));
+            GUILayout.Label("Scoreboard");
             foreach (PhotonPlayer player in PhotonNetwork.playerList)
             {
-                GUILayout.Box(player.name + " | " + player.GetScore());
+                GUILayout.Box(player.name + "                             " + player.GetScore());
             }
             GUILayout.EndArea();
         }
     }
 
     [PunRPC]
-    public void applyDamage(int dmg)
+    public void applyDamage(int dmg, string fromPlayer)
     {
+        dmgFrom = fromPlayer;
+        int updatedHealth = 0;
+        if (health - dmg <= 0)
+        {
+            // The displayed HP is never gonna get below 0
+            updatedHealth = 0;
+
+        } else
+        {
+            updatedHealth = health - dmg;
+        }
+
         health -= dmg;
-        playerStatusReceiver.RPC("updateHP", PhotonTargets.AllBuffered, health, maxHealth);
+        // TODO: this should not be called in the RPC, should be called in local client
+        if (GetComponent<PhotonView>().isMine)
+        {
+            playerStatusReceiver.RPC("updateHP", PhotonTargets.AllBuffered, updatedHealth, maxHealth);
+            GameObject.Find("_NETWORK").GetComponent<FeedManager>().addDamageFeed(PhotonNetwork.playerName, dmgFrom, dmg);
+        }
     }
 
+    // called locally
     private void die()
     {
         // just a safety guard to make sure die is called only once when a player's hp <= 0
@@ -170,6 +192,8 @@ public class RigidbodyFPSController : MonoBehaviour
 
         // back to the room menu
         GameObject.Find("_ROOM").GetComponent<RoomManager>().OnJoinedRoom();
+
+        GameObject.Find("_NETWORK").GetComponent<FeedManager>().addKillFeed(PhotonNetwork.playerName, dmgFrom);
     }
 
 }
