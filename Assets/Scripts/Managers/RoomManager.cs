@@ -20,7 +20,10 @@ public class RoomManager : Photon.MonoBehaviour {
     public string verNum = "0.1";
     
     public Transform[] spawnPoints;
-    public GameObject playerPref;
+
+    // Player class prefs
+    public GameObject SWAT;
+    public GameObject Assault;
 
     public InRoomChat chat;
 
@@ -71,12 +74,12 @@ public class RoomManager : Photon.MonoBehaviour {
     /**
      * Creates a player at a random spawn point
      */
-    public void spawnPlayer()
+    public void spawnPlayer(GameObject playerClass)
     {
         gameState = GameState.InGame;
 
         Transform randomSpawnPt = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        GameObject pl = PhotonNetwork.Instantiate(playerPref.name, randomSpawnPt.position, randomSpawnPt.rotation, 0) as GameObject;
+        GameObject pl = PhotonNetwork.Instantiate(playerClass.name, randomSpawnPt.position, randomSpawnPt.rotation, 0) as GameObject;
 
         // Enable the player script
         pl.GetComponent<RigidbodyFPSController>().enabled = true;
@@ -121,12 +124,20 @@ public class RoomManager : Photon.MonoBehaviour {
         if (gameState == GameState.InRoom)
         {
             GUILayout.BeginArea(new Rect(Screen.width / 2 - 150, Screen.height / 2 - 150, 300, 300));
-            GUILayout.Box("Score: " + PhotonNetwork.player.GetScore());
-            if (GUILayout.Button("Start game"))
+            GUILayout.Box("Your current score: " + PhotonNetwork.player.GetScore());
+
+            // Class selection
+            GUILayout.Label("Choose your class");
+            if (GUILayout.Button("SWAT"))
             {
-                spawnPlayer();
+                spawnPlayer(SWAT);
+            }
+            if (GUILayout.Button("Assault"))
+            {
+                spawnPlayer(Assault);
             }
 
+            GUILayout.Label("");
             if (GUILayout.Button("Quit room"))
             {
                 PhotonNetwork.Disconnect();

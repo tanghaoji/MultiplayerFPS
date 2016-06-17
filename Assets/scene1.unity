@@ -1533,7 +1533,8 @@ MonoBehaviour:
   - {fileID: 662491601}
   - {fileID: 219809505}
   - {fileID: 1581734700}
-  playerPref: {fileID: 173130, guid: b2876c4078a1ea14aa77104bfbd608eb, type: 2}
+  SWAT: {fileID: 173130, guid: b2876c4078a1ea14aa77104bfbd608eb, type: 2}
+  Assault: {fileID: 173130, guid: f9e27e5f2b70b6541a526eb49117fc95, type: 2}
   chat: {fileID: 1794761977}
   roomName: room01
   playerName: 
