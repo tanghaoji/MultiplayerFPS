@@ -8430,7 +8430,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 173130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.6593065, y: 0.5, z: 12.451889}
+  m_LocalPosition: {x: -5.0478992, y: 0.5, z: 11.905427}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -10492,7 +10492,7 @@ MonoBehaviour:
   fpsCam: {fileID: 199056}
   me: {fileID: 173130}
   graphics: {fileID: 104118}
-  ragDollPref: {fileID: 119996, guid: 20cda469c5aecfd428fe09333a05a261, type: 2}
+  ragDoll: {fileID: 163174, guid: f60f63c50e4718c46bc029a2abff61df, type: 2}
   playerStatusReceiver: {fileID: 11468880}
   fpAnimationManager: {fileID: 11437676}
   fpWalk: {fileID: 7400000, guid: 397a6088180e54e4d890f433b260c0b0, type: 2}

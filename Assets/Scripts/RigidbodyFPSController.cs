@@ -24,7 +24,7 @@ public class RigidbodyFPSController : MonoBehaviour
     public GameObject fpsCam;
     public GameObject me;
     public GameObject graphics; // tp graphics
-    public GameObject ragDollPref;
+    public GameObject ragDoll;
     public PhotonView playerStatusReceiver;
 
     // fp animations
@@ -183,7 +183,7 @@ public class RigidbodyFPSController : MonoBehaviour
 
         // create a rag doll (dead body)
         Vector3 currentPosn = transform.position;
-        GameObject doll = PhotonNetwork.Instantiate(ragDollPref.name, new Vector3(currentPosn.x, currentPosn.y + 1.5f, currentPosn.z), transform.rotation, 0) as GameObject;
+        GameObject doll = PhotonNetwork.Instantiate(ragDoll.name, new Vector3(currentPosn.x, currentPosn.y, currentPosn.z), transform.rotation, 0) as GameObject;
 
         PhotonNetwork.Destroy(me);
         
