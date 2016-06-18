@@ -185,15 +185,13 @@ public class RigidbodyFPSController : MonoBehaviour
         Vector3 currentPosn = transform.position;
         GameObject doll = PhotonNetwork.Instantiate(ragDoll.name, new Vector3(currentPosn.x, currentPosn.y, currentPosn.z), transform.rotation, 0) as GameObject;
 
+        // add kill feed
+        GameObject.Find("_NETWORK").GetComponent<FeedManager>().addKillFeed(PhotonNetwork.playerName, dmgFrom);
+
         PhotonNetwork.Destroy(me);
-        
-        // TODO: make it PhotonNetwork
-        Destroy(doll, 5);
 
         // back to the room menu
-        GameObject.Find("_ROOM").GetComponent<RoomManager>().OnJoinedRoom();
-
-        GameObject.Find("_NETWORK").GetComponent<FeedManager>().addKillFeed(PhotonNetwork.playerName, dmgFrom);
+        GameObject.Find("_ROOM").GetComponent<RoomManager>().onDie(doll);
     }
 
 }

@@ -7,7 +7,8 @@ public enum GameState
     Offline,
     InLobby,
     InRoom,
-    InGame
+    InGame,
+    Die
 }
 
 
@@ -31,6 +32,9 @@ public class RoomManager : Photon.MonoBehaviour {
     public string playerName;
 
     private GameState gameState = GameState.Offline;
+    // Temperate var to reference to ragDoll to destroy
+    // TODO: remove this var
+    private GameObject ragDoll;
 
     void Start()
     {
@@ -91,6 +95,12 @@ public class RoomManager : Photon.MonoBehaviour {
         pl.GetComponent<RigidbodyFPSController>().graphics.SetActive(false);
     }
 
+    public void onDie(GameObject ragDoll)
+    {
+        gameState = GameState.Die;
+        this.ragDoll = ragDoll;
+    }
+
     /*
      * Renders the lobby room and player create menu
      */
@@ -142,6 +152,20 @@ public class RoomManager : Photon.MonoBehaviour {
             {
                 PhotonNetwork.Disconnect();
                 SceneManager.LoadScene(0);
+            }
+
+            GUILayout.EndArea();
+        }
+
+        if (gameState == GameState.Die)
+        {
+            GUILayout.BeginArea(new Rect(Screen.width / 2 - 150, Screen.height / 2 - 150, 300, 300));
+            GUILayout.Box("You Died");
+
+            if (GUILayout.Button("Back to room"))
+            {
+                PhotonNetwork.Destroy(ragDoll);
+                OnJoinedRoom();
             }
 
             GUILayout.EndArea();
