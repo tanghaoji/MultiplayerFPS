@@ -48,7 +48,7 @@ public class RoomManager : Photon.MonoBehaviour {
     void Update()
     {
         // update the in-room and in-game chat
-        if (gameState == GameState.InRoom || gameState == GameState.InGame)
+        if (gameState == GameState.InRoom || gameState == GameState.InGame || gameState == GameState.Die)
         {
             chat.enabled = true;
         } else
@@ -73,6 +73,7 @@ public class RoomManager : Photon.MonoBehaviour {
     {
         PhotonNetwork.playerName = playerName;
         gameState = GameState.InRoom;
+        GameObject.Find("_NETWORK").GetComponent<FeedManager>().addRoomFeed(PhotonNetwork.playerName);
     }
 
     /**
@@ -81,6 +82,7 @@ public class RoomManager : Photon.MonoBehaviour {
     public void spawnPlayer(GameObject playerClass)
     {
         gameState = GameState.InGame;
+        GameObject.Find("_NETWORK").GetComponent<FeedManager>().addClassFeed(PhotonNetwork.playerName, playerClass.name);
 
         Transform randomSpawnPt = spawnPoints[Random.Range(0, spawnPoints.Length)];
         GameObject pl = PhotonNetwork.Instantiate(playerClass.name, randomSpawnPt.position, randomSpawnPt.rotation, 0) as GameObject;

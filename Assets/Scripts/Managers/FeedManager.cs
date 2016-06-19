@@ -8,7 +8,20 @@ public class FeedManager : MonoBehaviour {
 
     public InRoomChat chat;
 
+    private const string ROOM_FEED_PREFIX = "[Room] ";
     private const string BATTLE_FEED_PREFIX = "[Battle] ";
+
+    public void addRoomFeed(string target)
+    {
+        string msg = target + " has joined room";
+        addToFeed(ROOM_FEED_PREFIX, msg);
+    }
+
+    public void addClassFeed(string target, string className)
+    {
+        string msg = target + " has selected class " + className;
+        addToFeed(ROOM_FEED_PREFIX, msg);
+    }
 
     public void addKillFeed(string target, string killer)
     {

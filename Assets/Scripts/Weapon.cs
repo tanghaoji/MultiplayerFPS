@@ -46,9 +46,6 @@ public class Weapon : MonoBehaviour {
     public float aimFOV = 20; // aim field of view
     public float regFOV = 60; // regular field of view
 
-    // temp var to destroy when next gun shot
-    private GameObject _par;
-
     void Update()
     {
         // Mouse left click
@@ -100,19 +97,8 @@ public class Weapon : MonoBehaviour {
 
         if (Physics.Raycast(ray, out hit, range))
         {
-            // Temp fix: network destroy the last bullet on next shooting
-            if (_par != null)
-            {
-                PhotonNetwork.Destroy(_par);
-            }
-            
-            // Shoot a bullet at the aiming point
+            // Shoot a bullet at the aiming point, the par will be destroyed in its script
             GameObject par= PhotonNetwork.Instantiate(bullet.name, hit.point, Quaternion.LookRotation(hit.normal), 0) as GameObject;
-            _par = par;
-
-            // TODO: make it PhotonNetwork.Destroy
-            //Destroy(par, 0.2f); // local destroy
-            // PhotonNetwork.Destroy(par);
 
             if (hit.transform.tag == "Player")
             {
