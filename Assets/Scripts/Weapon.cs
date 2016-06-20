@@ -31,6 +31,7 @@ public class Weapon : MonoBehaviour {
     // Since the current Unity doesn't support storing AudioClip array in AudioSource, 
     // so we have to use hard coded index for each sound
     public int shootSoundIndex;
+    public int reloadSoundIndex;
 
     public float recoilPower = 30;
     public int damage = 10;
@@ -98,7 +99,7 @@ public class Weapon : MonoBehaviour {
         if (Physics.Raycast(ray, out hit, range))
         {
             // Shoot a bullet at the aiming point, the par will be destroyed in its script
-            GameObject par= PhotonNetwork.Instantiate(bullet.name, hit.point, Quaternion.LookRotation(hit.normal), 0) as GameObject;
+            PhotonNetwork.Instantiate(bullet.name, hit.point, Quaternion.LookRotation(hit.normal), 0);
 
             if (hit.transform.tag == "Player")
             {
@@ -120,6 +121,9 @@ public class Weapon : MonoBehaviour {
         fpAnimationManager.playAnimation(fpReload);
         tpAnimationManager.stopAnimation();
         tpAnimationManager.playAnimation(tpReload);
+
+        // play gun reload sound
+        soundReceiver.GetComponent<AudioManager>().localPlayAudio(reloadSoundIndex);
 
         ammo = clipSize;
         ammoAvailable -= clipSize;

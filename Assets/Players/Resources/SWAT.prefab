@@ -7960,7 +7960,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 173130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.049681, y: 0.5, z: 9.067123}
+  m_LocalPosition: {x: 5.883607, y: 0.5, z: 12.313784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -8909,6 +8909,7 @@ MonoBehaviour:
   tpRunShoot: {fileID: 7400000, guid: 3a6793549efe1d841b081450440237bf, type: 2}
   tpReload: {fileID: 7400000, guid: bea49d568724a9f44a0620563372fdcd, type: 2}
   shootSoundIndex: 1
+  reloadSoundIndex: 2
   recoilPower: 100
   damage: 50
   maxDamage: 99
@@ -9038,6 +9039,7 @@ MonoBehaviour:
   audios:
   - {fileID: 8300000, guid: 6903723faac81124b9290a087ec858aa, type: 3}
   - {fileID: 8300000, guid: 5e0784a8e4d2a8e40981382a1fe7ade6, type: 3}
+  - {fileID: 8300000, guid: affe12569ab0ed143b71e2929d8f5574, type: 3}
 --- !u!114 &11468880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9087,9 +9089,10 @@ MonoBehaviour:
   tpRunShoot: {fileID: 7400000, guid: 3a6793549efe1d841b081450440237bf, type: 2}
   tpReload: {fileID: 7400000, guid: bea49d568724a9f44a0620563372fdcd, type: 2}
   shootSoundIndex: 0
+  reloadSoundIndex: 2
   recoilPower: 30
-  damage: 15
-  maxDamage: 30
+  damage: 13
+  maxDamage: 28
   range: 100
   ammo: 17
   clipSize: 17

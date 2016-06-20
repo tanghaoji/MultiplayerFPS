@@ -15,6 +15,12 @@ public class AudioManager : MonoBehaviour {
     // This array should contains all the audio that will be triggered to play
     public AudioClip[] audios;
 
+    public void localPlayAudio(int index)
+    {
+        if (index >= audios.Length) return;
+        GetComponent<AudioSource>().PlayOneShot(audios[index]);
+    }
+
     [PunRPC]
     public void playAudioClip(int index)
     {
