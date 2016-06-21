@@ -84,7 +84,7 @@ NavMeshSettings:
     minRegionArea: 2
     cellSize: 0.16666667
     manualCellSize: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 8514b56258d3f78448897aa9e172e5af, type: 2}
 --- !u!1 &9944014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1535,6 +1535,7 @@ MonoBehaviour:
   - {fileID: 1581734700}
   SWAT: {fileID: 173130, guid: b2876c4078a1ea14aa77104bfbd608eb, type: 2}
   Assault: {fileID: 173130, guid: f9e27e5f2b70b6541a526eb49117fc95, type: 2}
+  aiPref: {fileID: 185424, guid: b5e7c2cc5b852994cac54d65865d6a61, type: 2}
   chat: {fileID: 1794761977}
   roomName: room01
   playerName: 

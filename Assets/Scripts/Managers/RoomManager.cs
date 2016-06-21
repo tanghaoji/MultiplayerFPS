@@ -26,6 +26,8 @@ public class RoomManager : Photon.MonoBehaviour {
     public GameObject SWAT;
     public GameObject Assault;
 
+    public GameObject aiPref;
+
     public InRoomChat chat;
 
     public string roomName;
@@ -77,7 +79,7 @@ public class RoomManager : Photon.MonoBehaviour {
     }
 
     /**
-     * Creates a player at a random spawn point
+     * Creates a player and a bot at a random spawn point
      */
     public void spawnPlayer(GameObject playerClass)
     {
@@ -95,6 +97,18 @@ public class RoomManager : Photon.MonoBehaviour {
 
         // Disable the graphic of the player on local
         pl.GetComponent<RigidbodyFPSController>().graphics.SetActive(false);
+
+        spawnAI();  
+    }
+
+    public void spawnAI()
+    {
+        gameState = GameState.InGame;
+
+        Transform randomSpawnPt = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        GameObject ai = PhotonNetwork.Instantiate(aiPref.name, randomSpawnPt.position, randomSpawnPt.rotation, 0) as GameObject;
+
+
     }
 
     public void onDie(GameObject ragDoll)

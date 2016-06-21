@@ -42,4 +42,5 @@ MonoBehaviour:
   - stopPlayPV
   - addFeed
   - Feed
+  - setTarget
   DisableAutoOpenWizard: 1
