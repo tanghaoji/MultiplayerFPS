@@ -103,12 +103,8 @@ public class RoomManager : Photon.MonoBehaviour {
 
     public void spawnAI()
     {
-        gameState = GameState.InGame;
-
         Transform randomSpawnPt = spawnPoints[Random.Range(0, spawnPoints.Length)];
         GameObject ai = PhotonNetwork.Instantiate(aiPref.name, randomSpawnPt.position, randomSpawnPt.rotation, 0) as GameObject;
-
-
     }
 
     public void onDie(GameObject ragDoll)

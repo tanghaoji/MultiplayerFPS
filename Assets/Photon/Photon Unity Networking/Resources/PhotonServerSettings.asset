@@ -43,4 +43,5 @@ MonoBehaviour:
   - addFeed
   - Feed
   - setTarget
+  - applyDamageAI
   DisableAutoOpenWizard: 1

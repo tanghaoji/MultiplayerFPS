@@ -110,6 +110,16 @@ public class Weapon : MonoBehaviour {
                 PhotonNetwork.player.AddScore(1);
                 Debug.Log("Current player's score " + PhotonNetwork.player.GetScore());
             }
+
+            if (hit.transform.tag == "AI")
+            {
+                Debug.Log("hit AI!");
+                hit.transform.GetComponent<PhotonView>().RPC("applyDamageAI", PhotonTargets.All, Random.Range(damage, maxDamage), PhotonNetwork.playerName);
+
+                // Add score to the current player
+                PhotonNetwork.player.AddScore(1);
+                Debug.Log("Current player's score " + PhotonNetwork.player.GetScore());
+            }
         }
     }
 
