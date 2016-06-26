@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// This class renders the player animations remotely
+/// </summary>
+
+// TODO: Add a require component PhotonView instead of manually adding PhotonView component
 public class TpAnimationManager : MonoBehaviour {
 
     public Animation tpAnimation;

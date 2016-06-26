@@ -2,13 +2,12 @@
 using System.Collections;
 
 /**
- * This class renders the player animations locally or to network
- * It can be registered to the component with only one purpose: either play locally or across the network
+ * This class renders the player animations locally
  */
  // TODO: make a super class for AnimationManager
 public class AnimationManager : MonoBehaviour {
     
-    // Animation sources for fp(locally) and tp(remotely)
+    // Animation sources for fp(locally)
     public Animation fpAnimation;
 
     /**

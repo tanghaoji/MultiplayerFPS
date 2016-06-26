@@ -101,6 +101,8 @@ public class Weapon : MonoBehaviour {
             // Shoot a bullet at the aiming point, the par will be destroyed in its script
             PhotonNetwork.Instantiate(bullet.name, hit.point, Quaternion.LookRotation(hit.normal), 0);
 
+            //TODO: Right now it's Players vs Bots. In the future, implement different game modes so that it has Player vs Player, or Melee
+            /**
             if (hit.transform.tag == "Player")
             {
                 Debug.Log("hit target!");
@@ -110,6 +112,7 @@ public class Weapon : MonoBehaviour {
                 PhotonNetwork.player.AddScore(1);
                 Debug.Log("Current player's score " + PhotonNetwork.player.GetScore());
             }
+            **/
 
             if (hit.transform.tag == "AI")
             {

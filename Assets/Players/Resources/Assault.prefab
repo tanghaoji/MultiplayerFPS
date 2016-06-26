@@ -5606,7 +5606,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 135530}
-  m_LocalRotation: {x: 0.60256666, y: 0.008674449, z: 0.79665554, w: 0.04667201}
+  m_LocalRotation: {x: 0.6025666, y: 0.008674448, z: 0.7966554, w: 0.046672005}
   m_LocalPosition: {x: -0.07538075, y: -0.56980306, z: 0.6006876}
   m_LocalScale: {x: 0.9999999, y: 0.99999976, z: 0.99999976}
   m_LocalEulerAnglesHint: {x: 2.4314957, y: 74.10215, z: 175.1301}
@@ -5748,7 +5748,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 130846}
-  m_LocalRotation: {x: -0.5945035, y: -0.039342307, z: -0.34210443, w: 0.726624}
+  m_LocalRotation: {x: -0.59450346, y: -0.039342303, z: -0.3421044, w: 0.72662395}
   m_LocalPosition: {x: -0.009992866, y: 0.014167937, z: -0.03252058}
   m_LocalScale: {x: 0.99999994, y: 0.9999999, z: 0.9999999}
   m_LocalEulerAnglesHint: {x: 297.01602, y: 50.319416, z: 277.47073}
@@ -5867,7 +5867,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 181358}
-  m_LocalRotation: {x: 0.6025666, y: 0.008674448, z: 0.7966554, w: 0.046672005}
+  m_LocalRotation: {x: 0.60256666, y: 0.008674449, z: 0.79665554, w: 0.04667201}
   m_LocalPosition: {x: -0.07538075, y: -0.56980306, z: 0.6006876}
   m_LocalScale: {x: 0.9999999, y: 0.99999976, z: 0.99999976}
   m_LocalEulerAnglesHint: {x: 2.4314957, y: 74.10215, z: 175.1301}
@@ -8524,7 +8524,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 173130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.594807, y: 0.5, z: 12.507936}
+  m_LocalPosition: {x: 4.517639, y: 0.5, z: 10.38409}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -10121,7 +10121,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -10916,8 +10916,8 @@ MonoBehaviour:
   damage: 10
   maxDamage: 24
   range: 100
-  ammo: 17
-  clipSize: 17
+  ammo: 32
+  clipSize: 32
   ammoAvailable: 1000
   canAim: 0
   aimFOV: 20
