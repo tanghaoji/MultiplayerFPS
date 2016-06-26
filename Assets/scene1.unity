@@ -1539,6 +1539,7 @@ MonoBehaviour:
   chat: {fileID: 1794761977}
   roomName: room01
   playerName: 
+  numAIToKill: 10
 --- !u!1 &255257750
 GameObject:
   m_ObjectHideFlags: 0

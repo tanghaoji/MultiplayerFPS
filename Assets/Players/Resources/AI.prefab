@@ -2092,6 +2092,7 @@ MonoBehaviour:
   tpRun: {fileID: 7400000, guid: a68be212a48492444b7f8907bf9e090a, type: 2}
   tpRunShoot: {fileID: 7400000, guid: 3a6793549efe1d841b081450440237bf, type: 2}
   enableDmg: 1
+  destroyRagDoll: 1
 --- !u!114 &11461926
 MonoBehaviour:
   m_ObjectHideFlags: 1

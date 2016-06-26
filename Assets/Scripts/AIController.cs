@@ -31,6 +31,7 @@ public class AIController : MonoBehaviour {
 
     // for testing purpose
     public bool enableDmg = true;
+    public bool destroyRagDoll = true;
 
     private GameObject[] targets;
 
@@ -82,14 +83,6 @@ public class AIController : MonoBehaviour {
         if (!isPlayingShoot && collision.transform.tag == "Player")
         {
             StartCoroutine(shoot());
-        }
-    }
-
-    void OnTriggerExit(Collider collision)
-    {
-        if (collision.transform.tag == "Player")
-        {
-            isPlayingShoot = false;
         }
     }
 
@@ -164,10 +157,13 @@ public class AIController : MonoBehaviour {
     {
         Destroy(me);
         GameObject doll = Instantiate(ragDoll, transform.position, transform.rotation) as GameObject;
-        Destroy(doll, 6f);
-
+        if (destroyRagDoll)
+        {
+            Destroy(doll, 6f);
+        }
+        
         // spawn AI per client, so if there are two clients, it will spawn two AIs per time
-        GameObject.Find("_ROOM").GetComponent<RoomManager>().spawnAI();
+        GameObject.Find("_ROOM").GetComponent<RoomManager>().onAIDIe();
     }
 
     [PunRPC]

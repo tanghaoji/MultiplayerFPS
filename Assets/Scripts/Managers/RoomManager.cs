@@ -33,6 +33,10 @@ public class RoomManager : Photon.MonoBehaviour {
     public string roomName;
     public string playerName;
 
+    // number of AIs needed to kill to pass the level
+    public int numAIToKill = 10;
+    private int numAILeft;
+
     private GameState gameState = GameState.Offline;
     // Temperate var to reference to ragDoll to destroy
     // TODO: remove this var
@@ -76,6 +80,7 @@ public class RoomManager : Photon.MonoBehaviour {
         PhotonNetwork.playerName = playerName;
         gameState = GameState.InRoom;
         GameObject.Find("_NETWORK").GetComponent<FeedManager>().addRoomFeed(PhotonNetwork.playerName);
+        numAILeft = numAIToKill;
     }
 
     /**
@@ -103,14 +108,21 @@ public class RoomManager : Photon.MonoBehaviour {
 
     public void spawnAI()
     {
+        if (numAILeft <= 0) return;
         Transform randomSpawnPt = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        GameObject ai = PhotonNetwork.Instantiate(aiPref.name, randomSpawnPt.position, randomSpawnPt.rotation, 0) as GameObject;
+        PhotonNetwork.Instantiate(aiPref.name, randomSpawnPt.position, randomSpawnPt.rotation, 0);
     }
 
     public void onDie(GameObject ragDoll)
     {
         gameState = GameState.Die;
         this.ragDoll = ragDoll;
+    }
+
+    public void onAIDIe()
+    {
+        numAILeft--;
+        spawnAI();
     }
 
     /*
