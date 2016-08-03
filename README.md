@@ -1,32 +1,35 @@
 # MultiplayerFPS
 A 3D multiplayer FPS game powered by Unity5 Engine
 
-Developers: Haoji Tang
-GitHub: http://tanghaoji.github.io/
+![Game preview](http://tanghaoji.github.io/images/multiplayer-fps.png)
 
-License and copyright: some game components and models were downloaded from Internet for personal use
+##Developers: 
+[Haoji Tang](http://tanghaoji.github.io/)
 
-Main Features:
+##License and copyright: 
+Some game components and models were downloaded from Internet for personal use
+
+##Main Features (Ver 1.0):
 - Create or find room to play with friends over the network
 - First person person camera view
 - Third person model with full animations
 - Two kinds of weapon: assault rifle CZ805 and sniper rifle SVD
 - Able to switch weapons to maximize the damage
 - Sniper scope to assist aiming
-- In-game chat
+- Room chat and battle feed
 - Damage and kill feed
 - Score system
 - And more!
 
-Animations:
+##Animations:
 - First person walk, shoot and idle
 - Third person run, aim, shoot, reload, idle and death animations
 - Gun switch, shoot and reload animations
 
-Audio:
+##Audio:
 - Gun shoot and reload audio
 
-Controls:
+##Controls:
 - W,A,S,D: movement
 - SPACE: jump
 - Mouse: camera control
@@ -37,4 +40,14 @@ Controls:
 - TAB: focus on the chat textfield
 - Left SHIFT: hold to show the scoreboard
 
-It is still under developing, so stay tuned!
+##Installation (Windows):
+[Click here to download version 1.0](http://tanghaoji.github.io/files/Multiplayer-FPS-beta-ver1.0.rar)
+Unzip and double click .exe file
+
+## Ver 2.0 preview:
+- Game bots AI
+- New gun and class
+- Improved visual GUI design
+- More animation and sound effect
+
+_It is still under developing, so stay tuned!_
